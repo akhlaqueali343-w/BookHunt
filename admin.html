@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookNest Admin Panel</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #fadadd;
+      background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 240, 245, 0.88);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page-wrapper {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .content-card {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(4px);
+      border-radius: 2rem 2rem 1.5rem 1.5rem;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 6px 12px rgba(245, 180, 190, 0.3);
+      width: 100%;
+      max-width: 1400px;
+      border: 2px solid #cfa668;
+      transition: all 0.2s;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .navy-text {
+      color: #1e3c5c !important;
+      font-weight: 700;
+    }
+
+    .gold-border {
+      border-color: #cfa668 !important;
+    }
+
+    .btn-navy {
+      background-color: #1e3c5c;
+      border: 1px solid #cfa668;
+      color: white;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border-radius: 40px;
+    }
+
+    .btn-navy:hover {
+      background-color: #0f2a4f;
+      transform: scale(1.03);
+      color: #f5e5c8;
+      border-color: #b8915c;
+    }
+
+    .btn-baby-pink {
+      background-color: #f9c8d0;
+      border: 1px solid #f6b0bb;
+      color: #1e3c5c;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border-radius: 40px;
+    }
+
+    .btn-baby-pink:hover {
+      background-color: #fbb1bc;
+      border-color: #f495a3;
+      transform: scale(1.03);
+      color: #0f2a4f;
+      box-shadow: 0 8px 14px rgba(249, 168, 180, 0.4);
+    }
+
+    .btn-danger-pink {
+      background-color: #f9c8d0;
+      border: 1px solid #f6b0bb;
+      color: #dc3545;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      border-radius: 40px;
+    }
+
+    .btn-danger-pink:hover {
+      background-color: #fbb1bc;
+      border-color: #f495a3;
+      transform: scale(1.02);
+    }
+
+    .card {
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(3px);
+      border: 1px solid #ffd0d6;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 18px 30px rgba(249, 160, 170, 0.3);
+      background: rgba(255, 255, 255, 0.85);
+      border-color: #cfa668;
+    }
+
+    .stat-card {
+      cursor: pointer;
+      border-left: 8px solid #fbb1bc;
+    }
+
+    .page-section {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .sidebar {
+      background: rgba(255, 240, 242, 0.9);
+      border-right: 2px solid #cfa668;
+      padding: 1.5rem;
+      min-height: 80vh;
+    }
+
+    .sidebar-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 20px;
+      margin-bottom: 8px;
+      border-radius: 40px;
+      border: 1px solid #f6b0bb;
+      background: #ffeef0;
+      color: #1e3c5c;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+
+    .sidebar-btn:hover,
+    .sidebar-btn.active {
+      background: #1e3c5c;
+      color: white;
+      border-color: #cfa668;
+      transform: scale(1.02);
+    }
+
+    .sidebar-btn i {
+      width: 25px;
+    }
+
+    .captcha-box {
+      background: #fad4da;
+      padding: 10px 18px;
+      border-radius: 40px;
+      font-weight: bold;
+      border: 1px solid #cfa668;
+    }
+
+    .table {
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 1rem;
+    }
+
+    .table thead {
+      background: #1e3c5c;
+      color: white;
+    }
+
+    .badge-navy {
+      background: #1e3c5c;
+      color: #f5e5c8;
+      border-radius: 20px;
+      padding: 5px 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <div class="content-card">
+      <!-- ADMIN LOGIN SECTION -->
+      <section id="admin-login-section" class="page-section">
+        <div class="text-center mb-5">
+          <i class="fas fa-user-shield fa-3x" style="color:#c06a78;"></i>
+          <h2 class="mt-2 navy-text">🔐 Admin Login</h2>
+          <p class="text-muted">BookNest Administration Panel</p>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-5">
+            <div class="p-4 rounded-4" style="background: rgba(255,240,242,0.7); border:1px solid #cfa668;"
+              autocomplete="off">
+              <div class="mb-3"><label class="form-label fw-semibold navy-text">Admin Name</label><input type="text"
+                  class="form-control rounded-pill" id="adminName" placeholder="Enter admin name" autocomplete="off"
+                  readonly onfocus="this.removeAttribute('readonly');"></div>
+              <div class="mb-3"><label class="form-label fw-semibold navy-text">Password</label><input type="password"
+                  class="form-control rounded-pill" id="adminPassword" placeholder="Enter password" autocomplete="off"
+                  readonly onfocus="this.removeAttribute('readonly');"></div>
+              <div class="mb-4">
+                <label class="form-label fw-semibold navy-text">Captcha</label>
+                <div class="d-flex align-items-center gap-2 captcha-box">
+                  <span id="adminCaptchaQuestion" class="fs-5">5 + 3 = ?</span>
+                  <input type="text" class="form-control rounded-pill w-50" id="adminCaptchaInput" placeholder="answer">
+                  <button class="btn btn-sm btn-outline-secondary" id="refreshAdminCaptchaBtn"
+                    title="Refresh captcha"><i class="fas fa-sync-alt"></i></button>
+                </div>
+                <input type="hidden" id="adminCaptchaAnswer" value="8">
+              </div>
+              <button class="btn btn-navy w-100 py-3" id="adminLoginBtn"><i
+                  class="fas fa-sign-in-alt me-2"></i>Login</button>
+              <div class="text-danger small mt-2 text-center" id="adminLoginError"></div>
+              <div class="text-center mt-3">
+                <a href="index.html" class="navy-text fw-bold"><i class="fas fa-arrow-left me-2"></i>Back to Library</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADMIN DASHBOARD -->
+      <section id="admin-dashboard-section" class="page-section" style="display: none;">
+        <div class="row">
+          <!-- Sidebar -->
+          <div class="col-md-3">
+            <div class="sidebar rounded-4">
+              <div class="text-center mb-4">
+                <i class="fas fa-user-shield fa-3x" style="color:#c06a78;"></i>
+                <h5 class="navy-text mt-2">Admin Panel</h5>
+                <p class="text-muted small">Welcome, <span id="adminWelcomeName"></span></p>
+              </div>
+              <button class="sidebar-btn active" id="btn-dashboard"><i
+                  class="fas fa-tachometer-alt me-2"></i>Dashboard</button>
+              <button class="sidebar-btn" id="btn-books"><i class="fas fa-book me-2"></i>Manage Books</button>
+              <button class="sidebar-btn" id="btn-subjects"><i class="fas fa-list me-2"></i>Manage Subjects</button>
+              <button class="sidebar-btn" id="btn-newspapers"><i class="fas fa-newspaper me-2"></i>Manage
+                Newspapers</button>
+              <button class="sidebar-btn" id="btn-general"><i class="fas fa-folder-open me-2"></i>General
+                Content</button>
+              <button class="sidebar-btn" id="btn-issued"><i class="fas fa-hand-holding me-2"></i>Issued Books</button>
+              <button class="sidebar-btn" id="btn-students"><i class="fas fa-users me-2"></i>Students</button>
+              <hr style="border-color: #cfa668;">
+              <button class="sidebar-btn" id="btn-logout" style="background: #fbb1bc; color: #dc3545;"><i
+                  class="fas fa-sign-out-alt me-2"></i>Logout</button>
+            </div>
+          </div>
+          <!-- Main Content -->
+          <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <button onclick="goBack()" class="btn btn-outline-secondary btn-sm rounded-pill" id="adminBackBtn"
+                style="display: none;">
+                <i class="fas fa-arrow-left me-1"></i>Back
+              </button>
+            </div>
+            <!-- Dashboard Overview -->
+            <div id="dashboard-content">
+              <h3 class="navy-text mb-4"><i class="fas fa-tachometer-alt me-2"></i>Dashboard Overview</h3>
+              <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                  <div class="card stat-card p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="text-muted">Total Books</h6>
+                        <h3 class="navy-text" id="stat-total-books">0</h3>
+                      </div>
+                      <i class="fas fa-book fa-2x" style="color:#c06a78;"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div class="card stat-card p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="text-muted">Total Subjects</h6>
+                        <h3 class="navy-text" id="stat-total-subjects">0</h3>
+                      </div>
+                      <i class="fas fa-list fa-2x" style="color:#c06a78;"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div class="card stat-card p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="text-muted">Issued Books</h6>
+                        <h3 class="navy-text" id="stat-issued-books">0</h3>
+                      </div>
+                      <i class="fas fa-hand-holding fa-2x" style="color:#c06a78;"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div class="card stat-card p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="text-muted">Students</h6>
+                        <h3 class="navy-text" id="stat-students">0</h3>
+                      </div>
+                      <i class="fas fa-users fa-2x" style="color:#c06a78;"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Actions -->
+              <div class="row g-4 mt-2">
+                <div class="col-md-6">
+                  <div class="card p-4" style="background: rgba(255,240,242,0.8); border: 2px solid #cfa668;">
+                    <h5 class="navy-text mb-3"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                    <div class="d-flex gap-2 flex-wrap">
+                      <button onclick="btnBooks.onclick()" class="btn btn-baby-pink rounded-pill"><i
+                          class="fas fa-plus me-2"></i>Add Book</button>
+                      <button onclick="btnSubjects.onclick()" class="btn btn-baby-pink rounded-pill"><i
+                          class="fas fa-plus me-2"></i>Add Subject</button>
+                      <button onclick="btnIssued.onclick()" class="btn btn-baby-pink rounded-pill"><i
+                          class="fas fa-eye me-2"></i>View Issued</button>
+                      <button onclick="btnStudents.onclick()" class="btn btn-baby-pink rounded-pill"><i
+                          class="fas fa-user me-2"></i>Search Student</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card p-4" style="background: rgba(255,240,242,0.8); border: 2px solid #cfa668;">
+                    <h5 class="navy-text mb-3"><i class="fas fa-clock me-2"></i>Recent Activity</h5>
+                    <p class="text-muted mb-0">Welcome to BookNest Admin Panel. Use the sidebar to navigate through
+                      different sections.</p>
+                    <hr class="my-3" style="border-color: #cfa668;">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span class="text-muted"><i class="fas fa-moon me-2"></i>Mode:</span>
+                      <div class="btn-group">
+                        <button onclick="setMode('light')"
+                          class="btn btn-sm btn-outline-secondary rounded-pill">Light</button>
+                        <button onclick="setMode('dark')"
+                          class="btn btn-sm btn-outline-secondary rounded-pill">Dark</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Books Management -->
+            <div id="books-content" style="display: none;">
+              <h3 class="navy-text mb-4"><i class="fas fa-book me-2"></i>Manage Books</h3>
+
+              <!-- Add Book Form -->
+              <div class="card p-4 mb-4" style="background: rgba(255,240,242,0.8); border: 2px solid #cfa668;">
+                <h5 class="navy-text mb-3"><i class="fas fa-plus me-2"></i>Add New Book</h5>
+                <form id="inline-book-form" class="row g-3">
+                  <input type="hidden" id="inline-book-edit-id">
+                  <div class="col-md-2">
+                    <input type="text" class="form-control rounded-pill" id="inline-book-title" placeholder="Title"
+                      required>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control rounded-pill" id="inline-book-author" placeholder="Author"
+                      required>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control rounded-pill" id="inline-book-publisher"
+                      placeholder="Publisher">
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control rounded-pill" id="inline-book-isbn" placeholder="ISBN"
+                      required>
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" class="form-control rounded-pill" id="inline-book-location"
+                      placeholder="Location" required>
+                  </div>
+                  <div class="col-md-1">
+                    <select class="form-select rounded-pill" id="inline-book-department" required>
+                      <option value="">Dept</option>
+                      <option value="BCA">BCA</option>
+                      <option value="MCA">MCA</option>
+                      <option value="CSE">CSE</option>
+                      <option value="MECH">MECH</option>
+                      <option value="CIVIL">CIVIL</option>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <select class="form-select rounded-pill" id="inline-book-semester" required>
+                      <option value="">Sem</option>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <input type="number" class="form-control rounded-pill" id="inline-book-total" placeholder="Total"
+                      min="1" required>
+                  </div>
+                  <div class="col-md-1">
+                    <button type="submit" class="btn btn-navy rounded-pill w-100"><i class="fas fa-save"></i></button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Author</th>
+                      <th>ISBN</th>
+                      <th>Dept</th>
+                      <th>Sem</th>
+                      <th>Available/Total</th>
+                      <th>Location</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="books-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Subjects Management -->
+            <div id="subjects-content" style="display: none;">
+              <h3 class="navy-text mb-4"><i class="fas fa-list me-2"></i>Manage Subjects</h3>
+
+              <!-- Add Subject Form -->
+              <div class="card p-4 mb-4" style="background: rgba(255,240,242,0.8); border: 2px solid #cfa668;">
+                <h5 class="navy-text mb-3"><i class="fas fa-plus me-2"></i>Add New Subject</h5>
+                <form id="inline-subject-form" class="row g-3">
+                  <input type="hidden" id="inline-subject-edit-id">
+                  <div class="col-md-2">
+                    <input type="text" class="form-control rounded-pill" id="inline-subject-code" placeholder="Code"
+                      required>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="text" class="form-control rounded-pill" id="inline-subject-title" placeholder="Title"
+                      required>
+                  </div>
+                  <div class="col-md-2">
+                    <select class="form-select rounded-pill" id="inline-subject-program" required>
+                      <option value="">Program</option>
+                      <option value="BCA">BCA</option>
+                      <option value="MCA">MCA</option>
+                      <option value="CSE">CSE</option>
+                      <option value="MECH">MECH</option>
+                      <option value="CIVIL">CIVIL</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <select class="form-select rounded-pill" id="inline-subject-semester" required>
+                      <option value="">Semester</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="number" class="form-control rounded-pill" id="inline-subject-books"
+                      placeholder="No. of Books" min="0" required>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-navy rounded-pill w-100"><i
+                        class="fas fa-save me-2"></i>Save</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Title</th>
+                      <th>Program</th>
+                      <th>Semester</th>
+                      <th>Books</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="subjects-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Newspapers Management -->
+            <div id="newspapers-content" style="display: none;">
+              <h3 class="navy-text mb-4"><i class="fas fa-newspaper me-2"></i>Manage Newspapers</h3>
+
+              <!-- Add Newspaper Form -->
+              <div class="card p-4 mb-4" style="background: rgba(255,240,242,0.8); border: 2px solid #cfa668;">
+                <h5 class="navy-text mb-3"><i class="fas fa-plus me-2"></i>Add Newspaper</h5>
+                <form id="inline-newspaper-form" class="row g-3">
+                  <input type="hidden" id="inline-newspaper-edit-id">
+                  <div class="col-md-3">
+                    <input type="text" class="form-control rounded-pill" id="inline-newspaper-name"
+                      placeholder="Newspaper Name" required>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="text" class="form-control rounded-pill" id="inline-newspaper-language"
+                      placeholder="Language (Hindi/English/Urdu/Punjabi)" required>
+                  </div>
+                  <div class="col-md-4">
+                    <input type="file" class="form-control rounded-pill" id="inline-newspaper-file" accept=".pdf"
+                      required>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-navy rounded-pill w-100"><i
+                        class="fas fa-save me-2"></i>Save</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Language</th>
+                      <th>PDF File</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="newspapers-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- General Content Management -->
+            <div id="general-content" style="display: none;">
+              <h3 class="navy-text mb-4"><i class="fas fa-folder-open me-2"></i>General Content
+                (Books/Magazines/Articles)</h3>
+
+              <!-- Add General Content Form -->
+              <div class="card p-4 mb-4" style="background: rgba(255,240,242,0.8); border: 2px solid #cfa668;">
+                <h5 class="navy-text mb-3"><i class="fas fa-plus me-2"></i>Add Content</h5>
+                <form id="inline-general-form" class="row g-3">
+                  <input type="hidden" id="inline-general-edit-id">
+                  <div class="col-md-2">
+                    <select class="form-select rounded-pill" id="inline-general-type" required>
+                      <option value="">Type</option>
+                      <option value="Book">Book</option>
+                      <option value="Novel">Novel</option>
+                      <option value="Magazine">Magazine</option>
+                      <option value="Article">Article</option>
+                      <option value="Literature">Literature</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="text" class="form-control rounded-pill" id="inline-general-title" placeholder="Title"
+                      required>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control rounded-pill" id="inline-general-author" placeholder="Author"
+                      required>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control rounded-pill" id="inline-general-publisher"
+                      placeholder="Publisher">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" class="form-control rounded-pill" id="inline-general-location"
+                      placeholder="Location" required>
+                  </div>
+                  <div class="col-md-1">
+                    <input type="number" class="form-control rounded-pill" id="inline-general-total" placeholder="Total"
+                      min="1" required>
+                  </div>
+                  <div class="col-md-1">
+                    <button type="submit" class="btn btn-navy rounded-pill w-100"><i class="fas fa-save"></i></button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Title</th>
+                      <th>Author</th>
+                      <th>Location</th>
+                      <th>Available/Total</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="general-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Issued Books -->
+            <div id="issued-content" style="display: none;">
+              <h3 class="navy-text mb-4"><i class="fas fa-hand-holding me-2"></i>Issued Books</h3>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Book Title</th>
+                      <th>Author</th>
+                      <th>Student Enrollment</th>
+                      <th>Issue Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="issued-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Students -->
+            <div id="students-content" style="display: none;">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="navy-text"><i class="fas fa-users me-2"></i>Registered Students</h3>
+                <div class="d-flex gap-2">
+                  <input type="text" class="form-control rounded-pill" id="student-search-input"
+                    placeholder="Search by enrollment number" style="max-width: 250px;">
+                  <button class="btn btn-baby-pink" id="student-search-btn"><i
+                      class="fas fa-search me-2"></i>Search</button>
+                  <button class="btn btn-baby-pink" id="student-show-all-btn"><i class="fas fa-list me-2"></i>Show
+                    All</button>
+                </div>
+              </div>
+              <div id="student-search-result" class="mb-3" style="display: none;"></div>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Enrollment No</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Department</th>
+                      <th>Admission Year</th>
+                      <th>Books Issued</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="students-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Add/Edit Book Modal -->
+      <div class="modal fade" id="bookModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content" style="border: 2px solid #cfa668; border-radius: 1.5rem;">
+            <div class="modal-header" style="background: #1e3c5c; color: white; border-radius: 1.5rem 1.5rem 0 0;">
+              <h5 class="modal-title"><i class="fas fa-book me-2"></i><span id="bookModalTitle">Add Book</span></h5>
+              <button type="button" class="btn-close btn-close-white" onclick="hideModal('bookModal')"></button>
+            </div>
+            <div class="modal-body">
+              <form id="book-form">
+                <input type="hidden" id="book-edit-id">
+                <div class="row">
+                  <div class="col-md-6 mb-3"><label class="form-label fw-semibold navy-text">Title</label><input
+                      type="text" class="form-control rounded-pill" id="book-title" required></div>
+                  <div class="col-md-6 mb-3"><label class="form-label fw-semibold navy-text">Author</label><input
+                      type="text" class="form-control rounded-pill" id="book-author" required></div>
+                  <div class="col-md-6 mb-3"><label class="form-label fw-semibold navy-text">Publisher</label><input
+                      type="text" class="form-control rounded-pill" id="book-publisher" required></div>
+                  <div class="col-md-6 mb-3"><label class="form-label fw-semibold navy-text">ISBN</label><input
+                      type="text" class="form-control rounded-pill" id="book-isbn" required></div>
+                  <div class="col-md-6 mb-3"><label class="form-label fw-semibold navy-text">Location</label><input
+                      type="text" class="form-control rounded-pill" id="book-location" required></div>
+                  <div class="col-md-3 mb-3"><label class="form-label fw-semibold navy-text">Total Copies</label><input
+                      type="number" class="form-control rounded-pill" id="book-total" required min="1"></div>
+                  <div class="col-md-3 mb-3"><label class="form-label fw-semibold navy-text">Available
+                      Copies</label><input type="number" class="form-control rounded-pill" id="book-available" required
+                      min="0"></div>
+                  <div class="col-md-6 mb-3"><label class="form-label fw-semibold navy-text">Subject</label><select
+                      class="form-select rounded-pill" id="book-subject" required></select></div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary rounded-pill"
+                onclick="hideModal('bookModal')">Cancel</button>
+              <button type="button" class="btn btn-navy rounded-pill" id="save-book-btn">Save Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add/Edit Subject Modal -->
+      <div class="modal fade" id="subjectModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content" style="border: 2px solid #cfa668; border-radius: 1.5rem;">
+            <div class="modal-header" style="background: #1e3c5c; color: white; border-radius: 1.5rem 1.5rem 0 0;">
+              <h5 class="modal-title"><i class="fas fa-list me-2"></i><span id="subjectModalTitle">Add Subject</span>
+              </h5>
+              <button type="button" class="btn-close btn-close-white" onclick="hideModal('subjectModal')"></button>
+            </div>
+            <div class="modal-body">
+              <form id="subject-form">
+                <input type="hidden" id="subject-edit-id">
+                <div class="mb-3"><label class="form-label fw-semibold navy-text">Code</label><input type="text"
+                    class="form-control rounded-pill" id="subject-code" required></div>
+                <div class="mb-3"><label class="form-label fw-semibold navy-text">Title</label><input type="text"
+                    class="form-control rounded-pill" id="subject-title" required></div>
+                <div class="mb-3"><label class="form-label fw-semibold navy-text">Program</label><select
+                    class="form-select rounded-pill" id="subject-program" required>
+                    <option value="">Select Program</option>
+                    <option value="BCA">BCA</option>
+                    <option value="MCA">MCA</option>
+                    <option value="CSE">CSE</option>
+                    <option value="MECH">MECH</option>
+                  </select></div>
+                <div class="mb-3"><label class="form-label fw-semibold navy-text">Semester</label><select
+                    class="form-select rounded-pill" id="subject-semester" required>
+                    <option value="">Select Semester</option>
+                  </select></div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary rounded-pill"
+                onclick="hideModal('subjectModal')">Cancel</button>
+              <button type="button" class="btn btn-navy rounded-pill" id="save-subject-btn">Save Subject</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    try {
+      (function () {
+        // Admin credentials
+        const ADMIN_NAME = 'Uzair Ahmad Khan';
+        const ADMIN_PASSWORD = '12345678';
+
+        // Load data from localStorage (synced with main app)
+        let subjectsData = JSON.parse(localStorage.getItem('booknest_subjects')) || [];
+        let booksData = JSON.parse(localStorage.getItem('booknest_books')) || [];
+        let issuedBooksData = JSON.parse(localStorage.getItem('booknest_issued')) || [];
+        let studentsData = JSON.parse(localStorage.getItem('booknest_students')) || [];
+        let studentsFullData = JSON.parse(localStorage.getItem('booknest_students_data')) || [];
+        let newspapersData = JSON.parse(localStorage.getItem('booknest_newspapers')) || [];
+        let generalData = JSON.parse(localStorage.getItem('booknest_general')) || [];
+
+        let subjectModal, bookModal;
+
+        // Simple modal show/hide functions
+        function showModal(modalId) {
+          const modal = document.getElementById(modalId);
+          if (!modal) {
+            console.error('Modal not found:', modalId);
+            return;
+          }
+          modal.style.display = 'block';
+          modal.classList.add('show');
+          modal.style.opacity = '1';
+          document.body.style.overflow = 'hidden';
+
+          // Create backdrop
+          const backdrop = document.createElement('div');
+          backdrop.className = 'modal-backdrop show';
+          backdrop.id = 'modal-backdrop-custom';
+          backdrop.style.zIndex = '1040';
+          backdrop.style.backgroundColor = 'rgba(0,0,0,0.5)';
+          document.body.appendChild(backdrop);
+        }
+
+        function hideModal(modalId) {
+          const modal = document.getElementById(modalId);
+          if (!modal) return;
+          modal.style.display = 'none';
+          modal.classList.remove('show');
+          modal.style.opacity = '0';
+          document.body.style.overflow = '';
+          const backdrop = document.getElementById('modal-backdrop-custom');
+          if (backdrop) backdrop.remove();
+        }
+
+        // DOM Elements
+        const adminLoginSection = document.getElementById('admin-login-section');
+        const adminDashboardSection = document.getElementById('admin-dashboard-section');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminName = document.getElementById('adminName');
+        const adminPassword = document.getElementById('adminPassword');
+        const adminCaptchaInput = document.getElementById('adminCaptchaInput');
+        const adminCaptchaQuestion = document.getElementById('adminCaptchaQuestion');
+        const adminCaptchaAnswer = document.getElementById('adminCaptchaAnswer');
+        const refreshAdminCaptchaBtn = document.getElementById('refreshAdminCaptchaBtn');
+        const adminLoginError = document.getElementById('adminLoginError');
+        const adminWelcomeName = document.getElementById('adminWelcomeName');
+        const btnLogout = document.getElementById('btn-logout');
+
+        // Sidebar buttons
+        const btnDashboard = document.getElementById('btn-dashboard');
+        const btnBooks = document.getElementById('btn-books');
+        const btnSubjects = document.getElementById('btn-subjects');
+        const btnNewspapers = document.getElementById('btn-newspapers');
+        const btnGeneral = document.getElementById('btn-general');
+        const btnIssued = document.getElementById('btn-issued');
+        const btnStudents = document.getElementById('btn-students');
+        const studentSearchInput = document.getElementById('student-search-input');
+        const studentSearchBtn = document.getElementById('student-search-btn');
+        const studentShowAllBtn = document.getElementById('student-show-all-btn');
+        const studentSearchResult = document.getElementById('student-search-result');
+
+        // Content sections
+        const dashboardContent = document.getElementById('dashboard-content');
+        const booksContent = document.getElementById('books-content');
+        const subjectsContent = document.getElementById('subjects-content');
+        const newspapersContent = document.getElementById('newspapers-content');
+        const generalContent = document.getElementById('general-content');
+        const issuedContent = document.getElementById('issued-content');
+        const studentsContent = document.getElementById('students-content');
+
+        // Captcha
+        function generateAdminCaptcha() {
+          const n1 = Math.floor(Math.random() * 10), n2 = Math.floor(Math.random() * 10);
+          adminCaptchaQuestion.innerText = `${n1} + ${n2} = ?`;
+          adminCaptchaAnswer.value = n1 + n2;
+        }
+        refreshAdminCaptchaBtn.onclick = (e) => { e.preventDefault(); generateAdminCaptcha(); };
+        generateAdminCaptcha();
+
+        // Admin Login
+        adminLoginBtn.onclick = () => {
+          const name = adminName.value.trim();
+          const pwd = adminPassword.value.trim();
+          const captcha = adminCaptchaInput.value.trim();
+
+          if (!name || !pwd || !captcha) { adminLoginError.innerText = '❌ All fields required'; return; }
+          if (parseInt(captcha) !== parseInt(adminCaptchaAnswer.value)) { adminLoginError.innerText = '❌ Captcha incorrect'; generateAdminCaptcha(); adminCaptchaInput.value = ''; return; }
+          if (name !== ADMIN_NAME || pwd !== ADMIN_PASSWORD) { adminLoginError.innerText = '❌ Invalid credentials'; generateAdminCaptcha(); adminCaptchaInput.value = ''; return; }
+
+          adminLoginError.innerText = '';
+          adminWelcomeName.innerText = ADMIN_NAME;
+          adminLoginSection.style.display = 'none';
+          adminDashboardSection.style.display = 'block';
+          updateDashboard();
+        };
+
+        // Logout
+        btnLogout.onclick = () => {
+          adminDashboardSection.style.display = 'none';
+          adminLoginSection.style.display = 'block';
+          adminName.value = '';
+          adminPassword.value = '';
+          adminCaptchaInput.value = '';
+          generateAdminCaptcha();
+          showDashboard();
+        };
+
+        // Navigation
+        let adminNavigationHistory = [];
+        const adminBackBtn = document.getElementById('adminBackBtn');
+
+        function hideAllContent() {
+          const currentVisible = [dashboardContent, booksContent, subjectsContent, newspapersContent, generalContent, issuedContent, studentsContent].find(s => s.style.display === 'block');
+
+          // Track navigation history
+          if (currentVisible) {
+            adminNavigationHistory.push(currentVisible);
+          }
+
+          dashboardContent.style.display = 'none';
+          booksContent.style.display = 'none';
+          subjectsContent.style.display = 'none';
+          newspapersContent.style.display = 'none';
+          generalContent.style.display = 'none';
+          issuedContent.style.display = 'none';
+          studentsContent.style.display = 'none';
+
+          // Update back button visibility
+          if (adminBackBtn) {
+            adminBackBtn.style.display = adminNavigationHistory.length > 0 ? 'block' : 'none';
+          }
+        }
+
+        function setActiveButton(btn) {
+          [btnDashboard, btnBooks, btnSubjects, btnNewspapers, btnGeneral, btnIssued, btnStudents].forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        }
+
+        window.goBack = () => {
+          if (adminNavigationHistory.length > 0) {
+            const previousSection = adminNavigationHistory.pop();
+            hideAllContent();
+            previousSection.style.display = 'block';
+            adminNavigationHistory.pop(); // Remove the duplicate added by hideAllContent
+            if (adminBackBtn) {
+              adminBackBtn.style.display = adminNavigationHistory.length > 0 ? 'block' : 'none';
+            }
+          }
+        };
+
+        if (btnDashboard) btnDashboard.onclick = () => { hideAllContent(); dashboardContent.style.display = 'block'; setActiveButton(btnDashboard); reloadData(); };
+        if (btnBooks) btnBooks.onclick = () => { hideAllContent(); booksContent.style.display = 'block'; setActiveButton(btnBooks); reloadData(); loadBooksTable(); };
+        if (btnSubjects) btnSubjects.onclick = () => { hideAllContent(); subjectsContent.style.display = 'block'; setActiveButton(btnSubjects); reloadData(); loadSubjectsTable(); };
+        if (btnNewspapers) btnNewspapers.onclick = () => {
+          hideAllContent();
+          newspapersContent.style.display = 'block';
+          setActiveButton(btnNewspapers);
+          reloadData();
+          loadNewspapersTable();
+          attachNewspaperFormHandler();
+        };
+        if (btnGeneral) btnGeneral.onclick = () => { hideAllContent(); generalContent.style.display = 'block'; setActiveButton(btnGeneral); reloadData(); loadGeneralTable(); };
+        if (btnIssued) btnIssued.onclick = () => { hideAllContent(); issuedContent.style.display = 'block'; setActiveButton(btnIssued); reloadData(); loadIssuedTable(); };
+        if (btnStudents) btnStudents.onclick = () => { hideAllContent(); studentsContent.style.display = 'block'; setActiveButton(btnStudents); reloadData(); loadStudentsTable(); };
+
+        function showDashboard() { hideAllContent(); dashboardContent.style.display = 'block'; setActiveButton(btnDashboard); }
+
+        // Dashboard Stats
+        function updateDashboard() {
+          const totalBooksEl = document.getElementById('stat-total-books');
+          const totalSubjectsEl = document.getElementById('stat-total-subjects');
+          const issuedBooksEl = document.getElementById('stat-issued-books');
+          const studentsEl = document.getElementById('stat-students');
+
+          if (totalBooksEl) totalBooksEl.innerText = booksData.length;
+          if (totalSubjectsEl) totalSubjectsEl.innerText = subjectsData.length;
+          if (issuedBooksEl) issuedBooksEl.innerText = issuedBooksData.length;
+          if (studentsEl) studentsEl.innerText = studentsData.length;
+
+          console.log('Dashboard updated:', { books: booksData.length, subjects: subjectsData.length, issued: issuedBooksData.length, students: studentsData.length });
+        }
+
+        // Load Books Table
+        function loadBooksTable() {
+          const tbody = document.getElementById('books-table-body');
+          tbody.innerHTML = '';
+          booksData.forEach((book, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td>${book.title}</td>
+          <td>${book.author}</td>
+          <td>${book.isbn}</td>
+          <td><span class="badge bg-info">${book.department || 'N/A'}</span></td>
+          <td>${book.semester || 'N/A'}</td>
+          <td><span class="badge-navy">${book.available_copies}/${book.total_copies}</span></td>
+          <td>${book.location}</td>
+          <td>
+            <button class="btn btn-sm btn-baby-pink rounded-pill me-2" onclick="editBook(${index})"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger-pink rounded-pill" onclick="deleteBook(${index})"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+            tbody.appendChild(row);
+          });
+        }
+
+        // Load Subjects Table
+        function loadSubjectsTable() {
+          const tbody = document.getElementById('subjects-table-body');
+          tbody.innerHTML = '';
+          subjectsData.forEach((subj, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td><span class="badge-navy">${subj.code}</span></td>
+          <td>${subj.title}</td>
+          <td>${subj.program}</td>
+          <td>Semester ${subj.semester}</td>
+          <td>${subj.books ? subj.books.length : 0}</td>
+          <td>
+            <button class="btn btn-sm btn-baby-pink rounded-pill" onclick="editSubject(${index})"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger-pink rounded-pill" onclick="deleteSubject(${index})"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+            tbody.appendChild(row);
+          });
+        }
+
+        // Load Issued Books Table
+        function loadIssuedTable() {
+          const tbody = document.getElementById('issued-table-body');
+          tbody.innerHTML = '';
+          issuedBooksData.forEach((issued, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td>${issued.bookTitle}</td>
+          <td>${issued.bookAuthor}</td>
+          <td>${issued.enrollment}</td>
+          <td>${issued.issueDate || new Date().toLocaleDateString()}</td>
+          <td><span class="badge-navy">Issued</span></td>
+          <td>
+            <button class="btn btn-sm btn-baby-pink rounded-pill" onclick="returnBook(${index})"><i class="fas fa-undo"></i> Return</button>
+          </td>
+        `;
+            tbody.appendChild(row);
+          });
+        }
+
+        // Load Students Table
+        function loadStudentsTable() {
+          const tbody = document.getElementById('students-table-body');
+          tbody.innerHTML = '';
+
+          // Use studentsFullData if available, otherwise fall back to studentsData
+          const dataToShow = studentsFullData.length > 0 ? studentsFullData : studentsData;
+
+          dataToShow.forEach((student, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td><span class="badge-navy">${student.enrollment}</span></td>
+          <td>${student.name || 'N/A'}</td>
+          <td>${student.email || 'N/A'}</td>
+          <td>${student.department || 'N/A'}</td>
+          <td>${student.admissionYear || 'N/A'}</td>
+          <td>${student.booksIssued || 0}</td>
+          <td>
+            <button class="btn btn-sm btn-baby-pink rounded-pill" onclick="viewStudentDetails('${student.enrollment}')"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-danger-pink rounded-pill" onclick="deleteStudent(${index})"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+            tbody.appendChild(row);
+          });
+        }
+
+        // Book Form (Inline)
+        const inlineBookForm = document.getElementById('inline-book-form');
+        const inlineBookDepartment = document.getElementById('inline-book-department');
+        const inlineBookSemester = document.getElementById('inline-book-semester');
+
+        inlineBookDepartment.onchange = () => {
+          const dept = inlineBookDepartment.value;
+          const semCount = { BCA: 6, MCA: 4, CSE: 8, MECH: 8, CIVIL: 8 }[dept] || 0;
+          inlineBookSemester.innerHTML = '<option value="">Sem</option>';
+          for (let i = 1; i <= semCount; i++) {
+            inlineBookSemester.innerHTML += `<option value="${i}">Sem ${i}</option>`;
+          }
+        };
+
+        inlineBookForm.onsubmit = (e) => {
+          e.preventDefault();
+          const editId = document.getElementById('inline-book-edit-id').value;
+          const book = {
+            title: document.getElementById('inline-book-title').value,
+            author: document.getElementById('inline-book-author').value,
+            publisher: document.getElementById('inline-book-publisher').value,
+            isbn: document.getElementById('inline-book-isbn').value,
+            location: document.getElementById('inline-book-location').value,
+            department: document.getElementById('inline-book-department').value,
+            semester: parseInt(document.getElementById('inline-book-semester').value),
+            total_copies: parseInt(document.getElementById('inline-book-total').value),
+            available_copies: parseInt(document.getElementById('inline-book-total').value)
+          };
+
+          if (!book.title || !book.author || !book.isbn || !book.department || !book.semester) { alert('Please fill required fields'); return; }
+
+          if (editId !== '') {
+            book.available_copies = booksData[parseInt(editId)].available_copies;
+            booksData[parseInt(editId)] = book;
+          } else {
+            book.addedTimestamp = Date.now();
+            booksData.push(book);
+          }
+
+          localStorage.setItem('booknest_books', JSON.stringify(booksData));
+
+          // Also add book to the appropriate subject in subjectsData
+          const subjectsData = JSON.parse(localStorage.getItem('booknest_subjects')) || [];
+          const matchingSubject = subjectsData.find(s => s.program === book.department && s.semester === book.semester);
+          if (matchingSubject) {
+            matchingSubject.books.push(book);
+            localStorage.setItem('booknest_subjects', JSON.stringify(subjectsData));
+          }
+
+          inlineBookForm.reset();
+          document.getElementById('inline-book-edit-id').value = '';
+          loadBooksTable();
+          updateDashboard();
+          alert('Book saved successfully!');
+        };
+
+        window.editBook = (index) => {
+          const book = booksData[index];
+          document.getElementById('inline-book-edit-id').value = index;
+          document.getElementById('inline-book-title').value = book.title;
+          document.getElementById('inline-book-author').value = book.author;
+          document.getElementById('inline-book-publisher').value = book.publisher;
+          document.getElementById('inline-book-isbn').value = book.isbn;
+          document.getElementById('inline-book-location').value = book.location;
+          document.getElementById('inline-book-department').value = book.department || '';
+          document.getElementById('inline-book-department').dispatchEvent(new Event('change'));
+          document.getElementById('inline-book-semester').value = book.semester || '';
+          document.getElementById('inline-book-total').value = book.total_copies;
+          document.getElementById('inline-book-title').focus();
+        };
+
+        window.deleteBook = (index) => {
+          if (confirm('Are you sure you want to delete this book?')) {
+            booksData.splice(index, 1);
+            localStorage.setItem('booknest_books', JSON.stringify(booksData));
+            loadBooksTable();
+            updateDashboard();
+          }
+        };
+
+        // Subject Form (Inline)
+        const inlineSubjectForm = document.getElementById('inline-subject-form');
+        const inlineSubjectProgram = document.getElementById('inline-subject-program');
+        const inlineSubjectSemester = document.getElementById('inline-subject-semester');
+
+        inlineSubjectProgram.onchange = () => {
+          const program = inlineSubjectProgram.value;
+          const semCount = { BCA: 6, MCA: 4, CSE: 8, MECH: 8, CIVIL: 8 }[program] || 0;
+          inlineSubjectSemester.innerHTML = '<option value="">Semester</option>';
+          for (let i = 1; i <= semCount; i++) inlineSubjectSemester.innerHTML += `<option value="${i}">Semester ${i}</option>`;
+        };
+
+        inlineSubjectForm.onsubmit = (e) => {
+          e.preventDefault();
+          const editId = document.getElementById('inline-subject-edit-id').value;
+          const numBooks = parseInt(document.getElementById('inline-subject-books').value) || 0;
+          const subject = {
+            code: document.getElementById('inline-subject-code').value,
+            title: document.getElementById('inline-subject-title').value,
+            program: document.getElementById('inline-subject-program').value,
+            semester: parseInt(document.getElementById('inline-subject-semester').value),
+            books: []
+          };
+
+          // Create placeholder books array based on number specified
+          for (let i = 0; i < numBooks; i++) {
+            subject.books.push({
+              title: `Book ${i + 1}`,
+              author: 'TBD',
+              publisher: 'TBD',
+              isbn: `TBD-${subject.code}-${i + 1}`,
+              location: 'TBD',
+              available_copies: 0,
+              total_copies: 0
+            });
+          }
+
+          if (!subject.code || !subject.title || !subject.program || !subject.semester) { alert('Please fill all fields'); return; }
+
+          if (editId !== '') {
+            subject.books = subjectsData[parseInt(editId)].books;
+            subjectsData[parseInt(editId)] = subject;
+          } else {
+            subjectsData.push(subject);
+          }
+
+          localStorage.setItem('booknest_subjects', JSON.stringify(subjectsData));
+          inlineSubjectForm.reset();
+          document.getElementById('inline-subject-edit-id').value = '';
+          loadSubjectsTable();
+          updateDashboard();
+          alert('Subject saved successfully!');
+        };
+
+        window.editSubject = (index) => {
+          const subj = subjectsData[index];
+          document.getElementById('inline-subject-edit-id').value = index;
+          document.getElementById('inline-subject-code').value = subj.code;
+          document.getElementById('inline-subject-title').value = subj.title;
+          document.getElementById('inline-subject-program').value = subj.program;
+          inlineSubjectProgram.onchange();
+          document.getElementById('inline-subject-semester').value = subj.semester;
+          document.getElementById('inline-subject-books').value = subj.books ? subj.books.length : 0;
+          document.getElementById('inline-subject-code').focus();
+        };
+
+        window.deleteSubject = (index) => {
+          if (confirm('Are you sure you want to delete this subject?')) {
+            subjectsData.splice(index, 1);
+            localStorage.setItem('booknest_subjects', JSON.stringify(subjectsData));
+            loadSubjectsTable();
+            updateDashboard();
+          }
+        };
+
+        // Newspaper Form Handler - attached when section is shown
+        function attachNewspaperFormHandler() {
+          const inlineNewspaperForm = document.getElementById('inline-newspaper-form');
+
+          if (!inlineNewspaperForm) {
+            console.error('Newspaper form not found!');
+            return;
+          }
+
+          // Remove existing handler if any
+          const newForm = inlineNewspaperForm.cloneNode(true);
+          inlineNewspaperForm.parentNode.replaceChild(newForm, inlineNewspaperForm);
+
+          console.log('Newspaper form found, attaching handler');
+          newForm.onsubmit = (e) => {
+            e.preventDefault();
+            console.log('=== Newspaper form submitted ===');
+
+            const editId = document.getElementById('inline-newspaper-edit-id').value;
+            const fileInput = document.getElementById('inline-newspaper-file');
+            const file = fileInput.files[0];
+
+            console.log('Edit ID:', editId);
+            console.log('File:', file);
+            console.log('File name:', file ? file.name : 'No file');
+            console.log('File size:', file ? file.size : 'No file');
+
+            if (!file) { alert('Please select a PDF file'); return; }
+
+            const name = document.getElementById('inline-newspaper-name').value;
+            const language = document.getElementById('inline-newspaper-language').value;
+
+            console.log('Name:', name);
+            console.log('Language:', language);
+
+            if (!name || !language) { alert('Please fill all fields'); return; }
+
+            console.log('Starting file read...');
+            const reader = new FileReader();
+            reader.onload = function (event) {
+              console.log('File loaded successfully, data size:', event.target.result.length);
+              const newspaper = {
+                name: name,
+                language: language,
+                pdfData: event.target.result
+              };
+
+              console.log('Newspaper object created:', newspaper);
+
+              if (editId !== '') {
+                newspapersData[parseInt(editId)] = newspaper;
+                console.log('Updated existing newspaper at index:', editId);
+              } else {
+                newspapersData.push(newspaper);
+                console.log('Added new newspaper, total:', newspapersData.length);
+              }
+
+              try {
+                localStorage.setItem('booknest_newspapers', JSON.stringify(newspapersData));
+                console.log('Saved to localStorage successfully');
+              } catch (error) {
+                console.error('Error saving to localStorage:', error);
+                alert('Error saving: File may be too large. Try a smaller PDF file.');
+                return;
+              }
+
+              newForm.reset();
+              document.getElementById('inline-newspaper-edit-id').value = '';
+              loadNewspapersTable();
+              alert('Newspaper saved successfully!');
+            };
+            reader.onerror = function (error) {
+              console.error('FileReader error:', error);
+              alert('Error reading file. Please try again.');
+            };
+            reader.readAsDataURL(file);
+          };
+        }
+
+        function loadNewspapersTable() {
+          const tbody = document.getElementById('newspapers-table-body');
+          tbody.innerHTML = '';
+          newspapersData.forEach((np, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td>${np.name}</td>
+          <td>${np.language}</td>
+          <td><a href="${np.pdfData}" download="${np.name}.pdf" class="btn btn-sm btn-baby-pink rounded-pill">Download PDF</a></td>
+          <td>
+            <button class="btn btn-sm btn-danger-pink rounded-pill" onclick="deleteNewspaper(${index})"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+            tbody.appendChild(row);
+          });
+        }
+
+        window.deleteNewspaper = (index) => {
+          if (confirm('Are you sure you want to delete this newspaper?')) {
+            newspapersData.splice(index, 1);
+            localStorage.setItem('booknest_newspapers', JSON.stringify(newspapersData));
+            loadNewspapersTable();
+          }
+        };
+
+        // General Content Form (Inline)
+        const inlineGeneralForm = document.getElementById('inline-general-form');
+
+        if (!inlineGeneralForm) {
+          console.error('General form not found!');
+        } else {
+          console.log('General form found, attaching handler');
+          inlineGeneralForm.onsubmit = (e) => {
+            e.preventDefault();
+            console.log('=== General content form submitted ===');
+
+            const editId = document.getElementById('inline-general-edit-id').value;
+            const generalItem = {
+              type: document.getElementById('inline-general-type').value,
+              title: document.getElementById('inline-general-title').value,
+              author: document.getElementById('inline-general-author').value,
+              publisher: document.getElementById('inline-general-publisher').value,
+              location: document.getElementById('inline-general-location').value,
+              total_copies: parseInt(document.getElementById('inline-general-total').value),
+              available_copies: parseInt(document.getElementById('inline-general-total').value),
+              addedTimestamp: Date.now()
+            };
+
+            console.log('General item:', generalItem);
+
+            if (!generalItem.type || !generalItem.title || !generalItem.author || !generalItem.location) {
+              alert('Please fill all required fields');
+              return;
+            }
+
+            if (editId !== '') {
+              generalItem.available_copies = generalData[parseInt(editId)].available_copies;
+              generalData[parseInt(editId)] = generalItem;
+              console.log('Updated existing general content at index:', editId);
+            } else {
+              generalData.push(generalItem);
+              console.log('Added new general content, total:', generalData.length);
+            }
+
+            try {
+              localStorage.setItem('booknest_general', JSON.stringify(generalData));
+              console.log('Saved to localStorage successfully');
+            } catch (error) {
+              console.error('Error saving to localStorage:', error);
+              alert('Error saving: ' + error.message);
+              return;
+            }
+
+            inlineGeneralForm.reset();
+            document.getElementById('inline-general-edit-id').value = '';
+            loadGeneralTable();
+            alert('Content saved successfully!');
+          };
+        }
+
+        window.editGeneral = (index) => {
+          const item = generalData[index];
+          document.getElementById('inline-general-edit-id').value = index;
+          document.getElementById('inline-general-type').value = item.type;
+          document.getElementById('inline-general-title').value = item.title;
+          document.getElementById('inline-general-author').value = item.author;
+          document.getElementById('inline-general-publisher').value = item.publisher;
+          document.getElementById('inline-general-location').value = item.location;
+          document.getElementById('inline-general-total').value = item.total_copies;
+          document.getElementById('inline-general-title').focus();
+        };
+
+        function loadGeneralTable() {
+          const tbody = document.getElementById('general-table-body');
+          tbody.innerHTML = '';
+          generalData.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td><span class="badge bg-info">${item.type}</span></td>
+          <td>${item.title}</td>
+          <td>${item.author}</td>
+          <td>${item.location}</td>
+          <td>${item.available_copies}/${item.total_copies}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill me-2" onclick="editGeneral(${index})"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger-pink rounded-pill" onclick="deleteGeneral(${index})"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+            tbody.appendChild(row);
+          });
+        }
+
+        window.deleteGeneral = (index) => {
+          if (confirm('Are you sure you want to delete this content?')) {
+            generalData.splice(index, 1);
+            localStorage.setItem('booknest_general', JSON.stringify(generalData));
+            loadGeneralTable();
+          }
+        };
+
+        window.returnBook = (index) => {
+          if (confirm('Mark this book as returned?')) {
+            issuedBooksData.splice(index, 1);
+            localStorage.setItem('booknest_issued', JSON.stringify(issuedBooksData));
+            loadIssuedTable();
+            updateDashboard();
+          }
+        };
+
+        window.deleteStudent = (index) => {
+          if (confirm('Are you sure you want to delete this student?')) {
+            studentsData.splice(index, 1);
+            localStorage.setItem('booknest_students', JSON.stringify(studentsData));
+            loadStudentsTable();
+            updateDashboard();
+          }
+        };
+
+        // Student search functionality
+        studentSearchBtn.onclick = () => {
+          const enrollment = studentSearchInput.value.trim();
+          if (!enrollment) { alert('Enter enrollment number'); return; }
+
+          const student = studentsFullData.find(s => s.enrollment === enrollment);
+          if (!student) {
+            studentSearchResult.innerHTML = '<div class="alert alert-danger rounded-pill">Student not found</div>';
+            studentSearchResult.style.display = 'block';
+            return;
+          }
+
+          // Calculate fine for overdue books
+          const studentIssuedBooks = issuedBooksData.filter(b => b.enrollment === enrollment);
+          let totalFine = 0;
+          const fineDetails = [];
+
+          studentIssuedBooks.forEach(book => {
+            if (book.issueTimestamp) {
+              const daysPassed = Math.floor((Date.now() - book.issueTimestamp) / (1000 * 60 * 60 * 24));
+              const overdueDays = Math.max(0, daysPassed - 10);
+              const fine = overdueDays * 5;
+              totalFine += fine;
+              if (fine > 0) {
+                fineDetails.push(`${book.bookTitle}: ₹${fine} (${overdueDays} days overdue)`);
+              }
+            }
+          });
+
+          const fineHtml = totalFine > 0 ?
+            `<div class="alert alert-danger rounded-pill mt-2">
+          <strong>Fine: ₹${totalFine}</strong><br>
+          ${fineDetails.join('<br>')}
+        </div>` :
+            `<div class="alert alert-success rounded-pill mt-2">No pending fines</div>`;
+
+          studentSearchResult.innerHTML = `
+        <div class="card p-4" style="background: rgba(255,240,242,0.8); border: 2px solid #cfa668;">
+          <h5 class="navy-text"><i class="fas fa-user me-2"></i>Student Details</h5>
+          <div class="row mt-3">
+            <div class="col-md-6"><strong>Name:</strong> ${student.name}</div>
+            <div class="col-md-6"><strong>Enrollment:</strong> ${student.enrollment}</div>
+            <div class="col-md-6"><strong>Email:</strong> ${student.email}</div>
+            <div class="col-md-6"><strong>Department:</strong> ${student.department}</div>
+            <div class="col-md-6"><strong>Admission Year:</strong> ${student.admissionYear}</div>
+            <div class="col-md-6"><strong>Books Issued:</strong> ${student.booksIssued || 0}</div>
+            <div class="col-md-6"><strong>Registration Date:</strong> ${student.registrationDate || 'N/A'}</div>
+          </div>
+          ${fineHtml}
+        </div>
+      `;
+          studentSearchResult.style.display = 'block';
+        };
+
+        studentShowAllBtn.onclick = () => {
+          studentSearchInput.value = '';
+          studentSearchResult.style.display = 'none';
+          loadStudentsTable();
+        };
+
+        window.viewStudentDetails = (enrollment) => {
+          studentSearchInput.value = enrollment;
+          studentSearchBtn.onclick();
+        };
+
+        // Reload data on page load to sync with main app
+        function reloadData() {
+          console.log('Reloading data from localStorage...');
+          subjectsData = JSON.parse(localStorage.getItem('booknest_subjects')) || [];
+          booksData = JSON.parse(localStorage.getItem('booknest_books')) || [];
+          issuedBooksData = JSON.parse(localStorage.getItem('booknest_issued')) || [];
+          studentsData = JSON.parse(localStorage.getItem('booknest_students')) || [];
+          studentsFullData = JSON.parse(localStorage.getItem('booknest_students_data')) || [];
+          newspapersData = JSON.parse(localStorage.getItem('booknest_newspapers')) || [];
+          generalData = JSON.parse(localStorage.getItem('booknest_general')) || [];
+          console.log('Data loaded:', { subjects: subjectsData.length, books: booksData.length, issued: issuedBooksData.length, students: studentsData.length, newspapers: newspapersData.length, general: generalData.length });
+          updateDashboard();
+        }
+
+        // Reload data when admin panel is opened
+        reloadData();
+
+        // Clean up any lingering backdrops on page load
+        window.addEventListener('load', () => {
+          const backdrop = document.getElementById('modal-backdrop-custom');
+          if (backdrop) backdrop.remove();
+          document.body.style.overflow = '';
+        });
+
+        // Mode toggle function
+        window.setMode = (mode) => {
+          if (mode === 'dark') {
+            document.body.style.background = '#1a1a2e';
+            document.body.style.backgroundImage = 'none';
+            document.querySelector('body::before').style.backgroundColor = 'rgba(26, 26, 46, 0.95)';
+          } else {
+            document.body.style.background = '#fadadd';
+            document.body.style.backgroundImage = 'url("https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80")';
+          }
+        };
+      })();
+    } catch (error) {
+      console.error('Admin panel error:', error);
+      alert('Admin panel failed to load. Please refresh the page.');
+    }
+  </script>
+</body>
+
+</html>
