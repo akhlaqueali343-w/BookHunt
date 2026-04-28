@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integral Library · BCA + MCA + CSE + MECH + General</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #fadadd;
+      background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 240, 245, 0.88);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page-wrapper {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .content-card {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(4px);
+      border-radius: 2rem 2rem 1.5rem 1.5rem;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 6px 12px rgba(245, 180, 190, 0.3);
+      width: 100%;
+      max-width: 1300px;
+      border: 2px solid #cfa668;
+      transition: all 0.2s;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .navy-text {
+      color: #1e3c5c !important;
+      font-weight: 700;
+    }
+
+    .gold-border {
+      border-color: #cfa668 !important;
+    }
+
+    .btn-navy {
+      background-color: #1e3c5c;
+      border: 1px solid #cfa668;
+      color: white;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border-radius: 40px;
+    }
+
+    .btn-navy:hover {
+      background-color: #0f2a4f;
+      transform: scale(1.03);
+      color: #f5e5c8;
+      border-color: #b8915c;
+    }
+
+    .btn-baby-pink {
+      background-color: #f9c8d0;
+      border: 1px solid #f6b0bb;
+      color: #1e3c5c;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border-radius: 40px;
+    }
+
+    .btn-baby-pink:hover {
+      background-color: #fbb1bc;
+      border-color: #f495a3;
+      transform: scale(1.03);
+      color: #0f2a4f;
+      box-shadow: 0 8px 14px rgba(249, 168, 180, 0.4);
+    }
+
+    .issue-btn {
+      background-color: #f9c8d0;
+      border: 1px solid #f6b0bb;
+      color: #1e3c5c;
+      font-weight: 600;
+      padding: 12px 16px !important;
+      font-size: 1.1rem;
+      border-radius: 40px;
+      width: 100%;
+    }
+
+    .issue-btn:hover:not(:disabled) {
+      background-color: #fbb1bc;
+      transform: scale(1.02);
+      color: #0f2a4f;
+    }
+
+    .issue-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-outline-baby-pink {
+      border: 1px solid #f6b0bb;
+      color: #1e3c5c;
+      padding: 8px 20px;
+      border-radius: 40px;
+    }
+
+    .btn-outline-baby-pink:hover {
+      background-color: #fce2e6;
+      transform: scale(1.02);
+      border-color: #cfa668;
+    }
+
+    .card {
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(3px);
+      border: 1px solid #ffd0d6;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 18px 30px rgba(249, 160, 170, 0.3);
+      background: rgba(255, 255, 255, 0.85);
+      border-color: #cfa668;
+    }
+
+    .subject-card {
+      cursor: pointer;
+      border-left: 8px solid #fbb1bc;
+    }
+
+    .page-section {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .dept-card {
+      cursor: pointer;
+      background: #ffeef0;
+      border-left: 12px solid #fbb1bc;
+      transition: all 0.15s;
+    }
+
+    .dept-card:hover {
+      background: #ffe1e6;
+      transform: scale(1.02) translateY(-3px);
+      border-left-color: #cfa668;
+    }
+
+    .search-filter {
+      background: rgba(255, 220, 227, 0.5);
+      border-radius: 50px;
+      padding: 10px 18px;
+    }
+
+    .semester-panel {
+      background: #fce4e8;
+      border-radius: 40px;
+      padding: 18px 22px;
+      margin-top: 15px;
+      border: 1px solid #cfa668;
+    }
+
+    .captcha-box {
+      background: #fad4da;
+      padding: 10px 18px;
+      border-radius: 40px;
+      font-weight: bold;
+      border: 1px solid #cfa668;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .back-home-link {
+      cursor: pointer;
+      color: #1e3c5c;
+      font-weight: 500;
+      text-decoration: underline dotted;
+      font-size: 1.1rem;
+    }
+
+    .back-home-link:hover {
+      color: #cfa668;
+    }
+
+    .confirmation-box {
+      background: rgba(255, 220, 227, 0.7);
+      border-radius: 2.5rem;
+      padding: 2.5rem;
+      text-align: center;
+      border: 3px solid #cfa668;
+    }
+
+    .course-code-badge {
+      background: #1e3c5c;
+      color: #f5e5c8;
+      border-radius: 40px;
+      padding: 4px 12px;
+      font-size: 0.85rem;
+    }
+
+    .active-program {
+      background-color: #1e3c5c !important;
+      color: white !important;
+      border-color: #cfa668 !important;
+    }
+
+    .availability-badge {
+      font-size: 0.9rem;
+      padding: 4px 8px;
+      border-radius: 20px;
+      background: #ffeef0;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .book-cover {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+      background: #f0e2e7;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #1e3c5c;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <div class="content-card">
+      <!-- LOGIN SECTION -->
+      <section id="login-section" class="page-section">
+        <div class="text-center mb-5">
+          <i class="fas fa-university fa-3x" style="color:#c06a78;"></i>
+          <h2 class="mt-2 navy-text">✨ BookNest Library</h2>
+          <p class="text-muted">Welcome to your library portal</p>
+          <div class="mt-3 p-3 rounded-3" style="background: rgba(207, 166, 104, 0.2); border: 2px solid #cfa668;">
+            <p class="mb-0 fst-italic navy-text" id="daily-quote">"Loading today's inspiration..."</p>
+            <small class="text-muted" id="quote-author"></small>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <!-- Login Form -->
+          <div class="col-md-6 col-lg-5" id="loginFormContainer">
+            <div class="p-4 rounded-4" style="background: rgba(255,240,242,0.7); border:1px solid #cfa668;">
+              <div class="mb-3">
+                <label class="form-label fw-semibold navy-text">Enrollment No</label>
+                <input type="text" class="form-control rounded-pill" id="enrollInput"
+                  placeholder="Enter enrollment number">
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold navy-text">Password</label>
+                <input type="password" class="form-control rounded-pill" id="passwordInput"
+                  placeholder="Enter password">
+              </div>
+              <div class="mb-4">
+                <label class="form-label fw-semibold navy-text">Captcha</label>
+                <div class="d-flex align-items-center gap-2 captcha-box">
+                  <span id="captchaQuestion" class="fs-5">5 + 3 = ?</span>
+                  <input type="text" class="form-control rounded-pill w-50" id="captchaInput" placeholder="answer">
+                  <button class="btn btn-sm btn-outline-secondary" id="refreshCaptchaBtn" title="Refresh captcha"><i
+                      class="fas fa-sync-alt"></i></button>
+                </div>
+                <input type="hidden" id="captchaAnswer" value="8">
+              </div>
+              <button class="btn btn-navy w-100 py-3" id="loginBtn"><i class="fas fa-sign-in-alt me-2"></i>Login &
+                enter</button>
+              <div class="text-danger small mt-2 text-center" id="loginError"></div>
+              <div class="text-center mt-3">
+                <a href="#" class="navy-text fw-bold small" id="showSignupBtn"><i class="fas fa-user-plus me-1"></i>New
+                  Student? Sign Up</a>
+                <br>
+                <a href="admin.html" class="navy-text fw-bold small mt-2 d-inline-block"><i
+                    class="fas fa-user-shield me-1"></i>Admin Panel</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sign Up Form -->
+          <div class="col-md-8 col-lg-6" id="signupFormContainer" style="display: none;">
+            <div class="p-4 rounded-4" style="background: rgba(255,240,242,0.7); border:1px solid #cfa668;">
+              <h4 class="navy-text text-center mb-4"><i class="fas fa-user-plus me-2"></i>Student Registration</h4>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold navy-text">Full Name</label>
+                  <input type="text" class="form-control rounded-pill" id="signupName" placeholder="Enter your name">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold navy-text">Enrollment No</label>
+                  <input type="text" class="form-control rounded-pill" id="signupEnroll"
+                    placeholder="Enrollment number">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold navy-text">Email</label>
+                  <input type="email" class="form-control rounded-pill" id="signupEmail" placeholder="your@email.com">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold navy-text">Password</label>
+                  <input type="password" class="form-control rounded-pill" id="signupPassword"
+                    placeholder="Create password (min 6 chars)">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold navy-text">Department</label>
+                  <select class="form-select rounded-pill" id="signupDepartment">
+                    <option value="">Select Department</option>
+                    <option value="CA">Department of Computer Application</option>
+                    <option value="Engg">Department of Engineering</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold navy-text">Admission Year</label>
+                  <select class="form-select rounded-pill" id="signupYear">
+                    <option value="">Select Year</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label fw-semibold navy-text">Captcha</label>
+                <div class="d-flex align-items-center gap-2 captcha-box">
+                  <span id="signupCaptchaQuestion" class="fs-5">5 + 3 = ?</span>
+                  <input type="text" class="form-control rounded-pill w-50" id="signupCaptchaInput"
+                    placeholder="answer">
+                  <button class="btn btn-sm btn-outline-secondary" id="refreshSignupCaptchaBtn"
+                    title="Refresh captcha"><i class="fas fa-sync-alt"></i></button>
+                </div>
+                <input type="hidden" id="signupCaptchaAnswer" value="8">
+              </div>
+              <button class="btn btn-navy w-100 py-3" id="signupBtn"><i
+                  class="fas fa-user-check me-2"></i>Register</button>
+              <div class="text-danger small mt-2 text-center" id="signupError"></div>
+              <div class="text-success small mt-2 text-center" id="signupSuccess"></div>
+              <div class="text-center mt-3">
+                <a href="#" class="navy-text fw-bold small" id="showLoginBtn"><i class="fas fa-arrow-left me-1"></i>Back
+                  to Login</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOME SECTION -->
+      <section id="home-section" class="page-section" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex align-items-center gap-3">
+            <button onclick="goBack()" class="btn btn-outline-secondary btn-sm rounded-pill" id="globalBackBtn"
+              style="display: none;">
+              <i class="fas fa-arrow-left me-1"></i>Back
+            </button>
+            <h2 class="navy-text mb-0"><i class="fas fa-university me-2"></i>select department</h2>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <span class="navy-text fw-semibold" id="studentNameDisplay"></span>
+            <button onclick="setStudentMode('light')" class="btn btn-outline-secondary btn-sm rounded-pill"
+              title="Light Mode"><i class="fas fa-sun"></i></button>
+            <button onclick="setStudentMode('dark')" class="btn btn-outline-secondary btn-sm rounded-pill"
+              title="Dark Mode"><i class="fas fa-moon"></i></button>
+            <button class="btn btn-navy btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt me-1"></i>logout</button>
+          </div>
+        </div>
+        <!-- Notification for new books -->
+        <div id="newBooksNotification" style="display: none;" class="mb-4">
+          <div
+            style="background: linear-gradient(135deg, rgba(30,60,92,0.95) 0%, rgba(66,165,245,0.95) 100%); padding: 20px; border-radius: 1.5rem; border: 2px solid #cfa668; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="text-white mb-2"><i class="fas fa-bell me-2"></i>New Books Added!</h5>
+                <p class="text-white mb-0" id="newBooksMessage" style="opacity: 0.9;">Check out the latest additions to
+                  our library collection.</p>
+              </div>
+              <button onclick="document.getElementById('newBooksNotification').style.display='none';"
+                class="btn btn-light rounded-pill" style="color: #1e3c5c;">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- search bar -->
+        <div class="search-filter d-flex flex-wrap align-items-center justify-content-between mb-4 p-3 gold-border">
+          <div class="d-flex gap-3 align-items-center">
+            <span class="fw-semibold navy-text">🔎 search by:</span>
+            <div class="btn-group" role="group">
+              <input type="radio" class="btn-check" name="searchFilter" id="filterAuthor" value="author" checked>
+              <label class="btn btn-outline-secondary btn-sm rounded-pill" for="filterAuthor">Author</label>
+              <input type="radio" class="btn-check" name="searchFilter" id="filterPublisher" value="publisher">
+              <label class="btn btn-outline-secondary btn-sm rounded-pill" for="filterPublisher">Publisher</label>
+              <input type="radio" class="btn-check" name="searchFilter" id="filterIsbn" value="isbn">
+              <label class="btn btn-outline-secondary btn-sm rounded-pill" for="filterIsbn">ISBN</label>
+            </div>
+          </div>
+          <div class="d-flex mt-2 mt-sm-0">
+            <input type="text" class="form-control form-control-sm rounded-pill me-2" id="searchInput"
+              placeholder="type keyword..." style="width:200px;">
+            <button class="btn btn-baby-pink px-4" id="searchBtn" style="padding:8px 24px;">Go</button>
+          </div>
+        </div>
+        <!-- Department cards -->
+        <div class="row g-4 mb-3">
+          <div class="col-md-6">
+            <div class="card dept-card p-3" id="deptCA">
+              <div class="card-body"><i class="fas fa-laptop fa-2x mb-2" style="color:#b35f6b;"></i>
+                <h4 class="navy-text">Department of <br>Computer Application</h4>
+                <p class="text-secondary">BCA · MCA</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card dept-card p-3" id="deptEngg">
+              <div class="card-body"><i class="fas fa-cogs fa-2x mb-2" style="color:#b35f6b;"></i>
+                <h4 class="navy-text">Department of <br>Engineering</h4>
+                <p class="text-secondary">CSE · Mechanical · Civil</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- General cards -->
+        <div class="row g-4 mt-3">
+          <div class="col-md-6">
+            <button id="generalBooksBtn" style="width: 100%; border: none; background: transparent; cursor: pointer;">
+              <div class="card dept-card p-3">
+                <div class="card-body">
+                  <i class="fas fa-book-open fa-2x mb-2" style="color:#b35f6b;"></i>
+                  <h4 class="navy-text">📚 General Content</h4>
+                  <p class="text-secondary">Books, Novels, Magazines, Articles, Literature</p>
+                </div>
+              </div>
+            </button>
+          </div>
+          <div class="col-md-6">
+            <button id="newspapersBtn" style="width: 100%; border: none; background: transparent; cursor: pointer;">
+              <div class="card dept-card p-3">
+                <div class="card-body">
+                  <i class="fas fa-newspaper fa-2x mb-2" style="color:#b35f6b;"></i>
+                  <h4 class="navy-text">📰 Newspapers</h4>
+                  <p class="text-secondary">Hindi, English, Urdu, Punjabi</p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+        <!-- program & semester panel (hidden from UI, used internally) -->
+        <div id="programSemesterPanel" class="semester-panel mt-4" style="display: none; visibility: hidden;">
+          <div class="row align-items-center g-3">
+            <div class="col-md-5"><span class="fw-semibold navy-text" id="selectedProgramDisplay"></span>
+              <div class="d-flex gap-2 mt-2" id="programButtonsContainer"></div>
+            </div>
+            <div class="col-md-4"><select class="form-select rounded-pill" id="semesterSelect">
+                <option>— choose semester —</option>
+              </select></div>
+            <div class="col-md-3"><button class="btn btn-navy w-100" id="goToSubjectsBtn">Show subjects</button></div>
+          </div>
+        </div>
+        <div id="studentContent" class="mt-4"></div>
+      </section>
+
+      <!-- SUBJECTS SECTION -->
+      <section id="subjectsSection" class="page-section" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="navy-text"><i class="fas fa-list me-2"></i><span id="subjectsTitle"></span></h3>
+          <a class="back-home-link" id="backHomeFromSubjects">← Back to home</a>
+        </div>
+        <div id="subjectsContainer" class="row g-4 mt-2"></div>
+      </section>
+
+      <!-- BOOKS SECTION -->
+      <section id="booksSection" class="page-section" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="navy-text"><i class="fas fa-book me-2"></i><span id="booksTitle"></span></h3>
+          <a class="back-home-link" id="backToSubjects">← Back to subjects</a>
+        </div>
+        <div id="booksContainer" class="books-grid"></div>
+      </section>
+
+      <!-- SEARCH RESULTS -->
+      <section id="searchResultsSection" class="page-section" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="navy-text"><i class="fas fa-search me-2"></i>search results</h3>
+          <a class="back-home-link" id="backHomeFromSearch">← Back to home</a>
+        </div>
+        <div id="searchResultsContainer" class="books-grid"></div>
+      </section>
+
+      <!-- ISSUE CONFIRMATION -->
+      <section id="issueConfirmationSection" class="page-section" style="display: none;">
+        <div class="confirmation-box">
+          <i class="fas fa-check-circle fa-4x mb-3" style="color:#b35f6b;"></i>
+          <h2 class="navy-text mb-3">📖 Book Issued Successfully!</h2>
+          <div
+            style="background: white; border-radius: 2rem; padding: 1.8rem; text-align: left; max-width: 500px; margin: 0 auto; border: 1px solid #cfa668;">
+            <p><strong class="navy-text">📘 Book:</strong> <span id="confirmBookTitle"></span></p>
+            <p><strong class="navy-text">✍️ Author:</strong> <span id="confirmBookAuthor"></span></p>
+            <p><strong class="navy-text">🔢 ISBN:</strong> <span id="confirmBookIsbn"></span></p>
+            <p><strong class="navy-text">📍 Location:</strong> <span id="confirmBookLocation"></span></p>
+            <p><strong class="navy-text">👤 Student enrollment:</strong> <span id="confirmEnrollment"></span></p>
+            <p><strong class="navy-text">📅 Return within:</strong> <span class="fw-bold text-danger">10 days</span>
+              (from today)</p>
+            <hr>
+            <p class="text-muted">Please return on or before due date. Thank you!</p>
+          </div>
+          <button class="btn btn-navy mt-4 px-5 py-3" id="backHomeFromConfirm">🏠 Back to Home</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function () {
+      function generateBookCover(title, author) {
+        const authorInitials = author.split(' ').map(w => w[0]).join('').toUpperCase().substring(0, 3);
+        const gradientStart = '#f9c8d0', gradientEnd = '#fbb1bc', textColor = '#1e3c5c';
+        const escapedTitle = title.substring(0, 40);
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+        <defs><linearGradient id="bookGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${gradientStart}"/><stop offset="100%" stop-color="${gradientEnd}"/></linearGradient>
+        <filter id="shadow"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#00000030"/></filter></defs>
+        <rect width="400" height="300" fill="url(#bookGrad)" rx="12" filter="url(#shadow)"/>
+        <rect x="8" width="6" height="300" fill="#e8a0ab" rx="3"/>
+        <line x1="25" y1="40" x2="375" y2="40" stroke="${textColor}" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.4"/>
+        <line x1="25" y1="260" x2="375" y2="260" stroke="${textColor}" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.4"/>
+        <text x="200" y="150" font-family="Segoe UI, FontAwesome, sans-serif" font-size="80" fill="${textColor}" opacity="0.15" text-anchor="middle">📖</text>
+        <text x="200" y="130" font-family="'Segoe UI', 'Playfair Display', serif" font-size="20" font-weight="bold" fill="${textColor}" text-anchor="middle">${escapedTitle.length > 35 ? escapedTitle.substring(0, 32) + '...' : escapedTitle}</text>
+        <text x="200" y="190" font-family="'Segoe UI', sans-serif" font-size="14" fill="${textColor}" text-anchor="middle" opacity="0.8">${author}</text>
+        <circle cx="200" cy="230" r="22" fill="${textColor}" opacity="0.85"/>
+        <text x="200" y="236" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">${authorInitials}</text>
+      </svg>`;
+        return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+      }
+
+      // Daily Motivational Quotes
+      const quotes = [
+        { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+        { quote: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela" },
+        { quote: "The beautiful thing about learning is that no one can take it away from you.", author: "B.B. King" },
+        { quote: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+        { quote: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+        { quote: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+        { quote: "Learning is a treasure that will follow its owner everywhere.", author: "Chinese Proverb" }
+      ];
+
+      function displayDailyQuote() {
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+        const quoteIndex = dayOfYear % quotes.length;
+        const selectedQuote = quotes[quoteIndex];
+        document.getElementById('daily-quote').innerText = `"${selectedQuote.quote}"`;
+        document.getElementById('quote-author').innerText = `- ${selectedQuote.author}`;
+      }
+
+      displayDailyQuote();
+
+      function displayPostLoginQuote() {
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+        const quoteIndex = dayOfYear % quotes.length;
+        const selectedQuote = quotes[quoteIndex];
+        const postLoginQuote = document.getElementById('post-login-quote');
+        const postLoginQuoteAuthor = document.getElementById('post-login-quote-author');
+        if (postLoginQuote && postLoginQuoteAuthor) {
+          postLoginQuote.innerText = `"${selectedQuote.quote}"`;
+          postLoginQuoteAuthor.innerText = `- ${selectedQuote.author}`;
+        }
+      }
+
+      window.setStudentMode = (mode) => {
+        if (mode === 'dark') {
+          document.body.style.background = 'linear-gradient(135deg, #1a237e 0%, #42a5f5 100%)';
+          document.body.style.backgroundImage = 'none';
+          document.querySelector('body::before').style.backgroundColor = 'rgba(66, 165, 245, 0.3)';
+        } else {
+          document.body.style.background = '#fadadd';
+          document.body.style.backgroundImage = 'url("https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80")';
+          document.querySelector('body::before').style.backgroundColor = 'rgba(255, 240, 245, 0.88)';
+        }
+      };
+
+      const embeddedSubjectsData = [
+        // BCA Semester 1
+        { program: 'BCA', semester: 1, code: 'BCA101', title: 'Mathematics I', books: [{ title: 'Higher Engineering Mathematics', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-10-1', location: 'A-101', available_copies: 5, total_copies: 10 }, { title: 'Engineering Mathematics', author: 'N.P. Bali', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'A-102', available_copies: 3, total_copies: 8 }] },
+        { program: 'BCA', semester: 1, code: 'BCA102', title: 'Programming in C', books: [{ title: 'Let Us C', author: 'Yashavant Kanetkar', publisher: 'BPB Publications', isbn: '978-81-7656-98-3', location: 'B-101', available_copies: 8, total_copies: 12 }, { title: 'The C Programming Language', author: 'Kernighan & Ritchie', publisher: 'Prentice Hall', isbn: '978-01-310-362-7', location: 'B-102', available_copies: 4, total_copies: 6 }] },
+        { program: 'BCA', semester: 1, code: 'BCA103', title: 'Digital Electronics', books: [{ title: 'Digital Fundamentals', author: 'Floyd', publisher: 'Pearson', isbn: '978-81-7758-76-5', location: 'C-101', available_copies: 6, total_copies: 10 }, { title: 'Digital Electronics', author: 'Morris Mano', publisher: 'Tata McGraw Hill', isbn: '978-00-746-523-4', location: 'C-102', available_copies: 5, total_copies: 8 }] },
+        { program: 'BCA', semester: 1, code: 'BCA104', title: 'Computer Fundamentals', books: [{ title: 'Computer Fundamentals', author: 'Pradeep K. Sinha', publisher: 'BPB Publications', isbn: '978-81-7656-99-0', location: 'D-101', available_copies: 7, total_copies: 12 }, { title: 'Introduction to Computers', author: 'Peter Norton', publisher: 'McGraw Hill', isbn: '978-00-733-660-5', location: 'D-102', available_copies: 4, total_copies: 8 }] },
+        { program: 'BCA', semester: 1, code: 'BCA105', title: 'Communication Skills', books: [{ title: 'Business Communication', author: 'Meenakshi Raman', publisher: 'Oxford University Press', isbn: '978-01-956-864-5', location: 'E-101', available_copies: 5, total_copies: 10 }, { title: 'Effective Communication', author: 'Ashraf Rizvi', publisher: 'Tata McGraw Hill', isbn: '978-00-713-324-5', location: 'E-102', available_copies: 6, total_copies: 9 }] },
+        // BCA Semester 2
+        { program: 'BCA', semester: 2, code: 'BCA201', title: 'Mathematics II', books: [{ title: 'Discrete Mathematics', author: 'Seymour Lipschutz', publisher: 'McGraw Hill', isbn: '978-00-716-189-9', location: 'A-201', available_copies: 5, total_copies: 10 }, { title: 'Discrete Structures', author: 'Tremblay & Manohar', publisher: 'McGraw Hill', isbn: '978-00-704-660-8', location: 'A-202', available_copies: 4, total_copies: 8 }] },
+        { program: 'BCA', semester: 2, code: 'BCA202', title: 'Data Structures', books: [{ title: 'Data Structures', author: 'Seymour Lipschutz', publisher: 'McGraw Hill', isbn: '978-00-716-190-5', location: 'B-201', available_copies: 7, total_copies: 12 }, { title: 'Data Structures and Algorithms', author: 'Aho, Hopcroft & Ullman', publisher: 'Pearson', isbn: '978-02-015-624-2', location: 'B-202', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 2, code: 'BCA203', title: 'Object Oriented Programming', books: [{ title: 'Object Oriented Programming with C++', author: 'E. Balagurusamy', publisher: 'Tata McGraw Hill', isbn: '978-00-746-523-4', location: 'C-201', available_copies: 6, total_copies: 10 }, { title: 'The C++ Programming Language', author: 'Bjarne Stroustrup', publisher: 'Pearson', isbn: '978-03-215-638-4', location: 'C-202', available_copies: 4, total_copies: 8 }] },
+        { program: 'BCA', semester: 2, code: 'BCA204', title: 'Operating Systems', books: [{ title: 'Operating System Concepts', author: 'Galvin', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'D-201', available_copies: 5, total_copies: 10 }, { title: 'Modern Operating Systems', author: 'Tanenbaum', publisher: 'Pearson', isbn: '978-01-335-917-5', location: 'D-202', available_copies: 6, total_copies: 9 }] },
+        { program: 'BCA', semester: 2, code: 'BCA205', title: 'Database Management Systems', books: [{ title: 'Database System Concepts', author: 'Korth', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'E-201', available_copies: 7, total_copies: 12 }, { title: 'Fundamentals of Database Systems', author: 'Navathe', publisher: 'Pearson', isbn: '978-01-239-744-0', location: 'E-202', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 2, code: 'CA122', title: 'Indian Constitution and Cyber Law', books: [{ title: 'Introduction to the Constitution of India', author: 'Durga Das Basu', publisher: 'LexisNexis', isbn: '978-93-5195-11-4', location: 'E-203', available_copies: 6, total_copies: 10 }, { title: 'Cyber Law in India', author: 'Pavan Duggal', publisher: 'LexisNexis', isbn: '978-93-5037-22-3', location: 'E-204', available_copies: 5, total_copies: 9 }, { title: 'Information Technology Act with Rules', author: 'R.K. Bagla', publisher: 'Universal Law Publishing', isbn: '978-81-877-877-0', location: 'E-205', available_copies: 4, total_copies: 8 }] },
+        // BCA Semester 3
+        { program: 'BCA', semester: 3, code: 'BCA301', title: 'Computer Networks', books: [{ title: 'Data Communications and Networking', author: 'Forouzan', publisher: 'McGraw Hill', isbn: '978-00-733-254-7', location: 'A-301', available_copies: 6, total_copies: 10 }, { title: 'Computer Networks', author: 'Tanenbaum', publisher: 'Pearson', isbn: '978-01-321-269-9', location: 'A-302', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 3, code: 'BCA302', title: 'Software Engineering', books: [{ title: 'Software Engineering', author: 'Pressman', publisher: 'McGraw Hill', isbn: '978-00-733-724-5', location: 'B-301', available_copies: 5, total_copies: 10 }, { title: 'Software Engineering: A Practitioner Approach', author: 'Roger Pressman', publisher: 'McGraw Hill', isbn: '978-00-735-582-1', location: 'B-302', available_copies: 4, total_copies: 8 }] },
+        { program: 'BCA', semester: 3, code: 'BCA303', title: 'Web Technologies', books: [{ title: 'Web Technologies', author: 'Uttam K. Roy', publisher: 'Oxford University Press', isbn: '978-01-956-865-2', location: 'C-301', available_copies: 7, total_copies: 12 }, { title: 'HTML5 and CSS3', author: 'Eric Freeman', publisher: "O'Reilly", isbn: '978-14-493-911-4', location: 'C-302', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 3, code: 'BCA304', title: 'Java Programming', books: [{ title: 'Java: The Complete Reference', author: 'Herbert Schildt', publisher: 'McGraw Hill', isbn: '978-00-722-263-8', location: 'D-301', available_copies: 8, total_copies: 14 }, { title: 'Head First Java', author: 'Kathy Sierra', publisher: "O'Reilly", isbn: '978-05-960-092-0', location: 'D-302', available_copies: 6, total_copies: 10 }] },
+        { program: 'BCA', semester: 3, code: 'BCA305', title: 'Numerical Methods', books: [{ title: 'Numerical Methods', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-11-8', location: 'E-301', available_copies: 5, total_copies: 9 }, { title: 'Numerical Methods for Engineers', author: 'Chapra & Canale', publisher: 'McGraw Hill', isbn: '978-00-734-013-1', location: 'E-302', available_copies: 4, total_copies: 8 }] },
+        // BCA Semester 4
+        { program: 'BCA', semester: 4, code: 'BCA401', title: 'Design and Analysis of Algorithms', books: [{ title: 'Introduction to Algorithms', author: 'Cormen', publisher: 'MIT Press', isbn: '978-02-620-338-8', location: 'A-401', available_copies: 6, total_copies: 10 }, { title: 'Algorithm Design', author: 'Kleinberg & Tardos', publisher: 'Pearson', isbn: '978-03-212-955-3', location: 'A-402', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 4, code: 'BCA402', title: 'Visual Basic', books: [{ title: 'Mastering Visual Basic .NET', author: 'Evangelos Petroutsos', publisher: 'Sybex', isbn: '978-07-821-437-8', location: 'B-401', available_copies: 5, total_copies: 10 }, { title: 'Visual Basic 2010', author: 'Michael Halvorson', publisher: 'Microsoft Press', isbn: '978-07-356-543-3', location: 'B-402', available_copies: 4, total_copies: 8 }] },
+        { program: 'BCA', semester: 4, code: 'BCA403', title: 'Computer Graphics', books: [{ title: 'Computer Graphics: Principles and Practice', author: 'Foley', publisher: 'Pearson', isbn: '978-02-011-248-7', location: 'C-401', available_copies: 5, total_copies: 9 }, { title: 'Computer Graphics with OpenGL', author: 'Hearn & Baker', publisher: 'Pearson', isbn: '978-01-314-988-9', location: 'C-402', available_copies: 6, total_copies: 10 }] },
+        { program: 'BCA', semester: 4, code: 'BCA404', title: 'Linux Administration', books: [{ title: 'Linux: The Complete Reference', author: 'Richard Petersen', publisher: 'McGraw Hill', isbn: '978-00-722-638-1', location: 'D-401', available_copies: 7, total_copies: 12 }, { title: 'The Linux Command Line', author: 'William Shotts', publisher: 'No Starch Press', isbn: '978-15-932-738-9', location: 'D-402', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 4, code: 'BCA405', title: 'E-Commerce', books: [{ title: 'E-Commerce: Business, Technology, Society', author: 'Laudon', publisher: 'Pearson', isbn: '978-02-737-606-2', location: 'E-401', available_copies: 6, total_copies: 10 }, { title: 'Electronic Commerce', author: 'Gary Schneider', publisher: 'Cengage Learning', isbn: '978-11-310-324-5', location: 'E-402', available_copies: 4, total_copies: 8 }] },
+        // BCA Semester 5
+        { program: 'BCA', semester: 5, code: 'BCA501', title: 'Artificial Intelligence', books: [{ title: 'Artificial Intelligence: A Modern Approach', author: 'Russell & Norvig', publisher: 'Pearson', isbn: '978-01-360-425-9', location: 'A-501', available_copies: 7, total_copies: 12 }, { title: 'Introduction to Artificial Intelligence', author: 'Ertel', publisher: 'Springer', isbn: '978-18-488-286-2', location: 'A-502', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 5, code: 'BCA502', title: 'PHP & MySQL', books: [{ title: 'PHP and MySQL Web Development', author: 'Luke Welling', publisher: 'Addison-Wesley', isbn: '978-06-723-291-6', location: 'B-501', available_copies: 8, total_copies: 14 }, { title: 'Learning PHP, MySQL & JavaScript', author: 'Robin Nixon', publisher: "O'Reilly", isbn: '978-14-493-191-8', location: 'B-502', available_copies: 6, total_copies: 10 }] },
+        { program: 'BCA', semester: 5, code: 'BCA503', title: 'Cloud Computing', books: [{ title: 'Cloud Computing: Concepts, Technology & Architecture', author: 'Buyya', publisher: 'Morgan Kaufmann', isbn: '978-01-241-070-7', location: 'C-501', available_copies: 6, total_copies: 10 }, { title: 'Cloud Computing Bible', author: 'Barrie Sosinsky', publisher: 'Wiley', isbn: '978-04-709-035-6', location: 'C-502', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 5, code: 'BCA504', title: 'Cyber Security', books: [{ title: 'Cryptography and Network Security', author: 'William Stallings', publisher: 'Pearson', isbn: '978-01-335-917-5', location: 'D-501', available_copies: 7, total_copies: 12 }, { title: 'Computer Security: Principles and Practice', author: 'Stallings & Brown', publisher: 'Pearson', isbn: '978-01-327-743-9', location: 'D-502', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 5, code: 'BCA505', title: 'Mobile Application Development', books: [{ title: 'Android Programming: The Big Nerd Ranch Guide', author: 'Bill Phillips', publisher: 'Big Nerd Ranch', isbn: '978-03-219-426-8', location: 'E-501', available_copies: 6, total_copies: 10 }, { title: 'Android for Programmers', author: 'Paul Deitel', publisher: 'Prentice Hall', isbn: '978-01-321-254-5', location: 'E-502', available_copies: 4, total_copies: 8 }] },
+        // BCA Semester 6
+        { program: 'BCA', semester: 6, code: 'BCA601', title: 'Big Data Analytics', books: [{ title: 'Big Data Analytics', author: 'Anil Maheshwari', publisher: 'Wiley', isbn: '978-11-190-632-4', location: 'A-601', available_copies: 5, total_copies: 10 }, { title: 'Big Data: Principles and Best Practices', author: 'Edd Dumbill', publisher: "O'Reilly", isbn: '978-14-493-613-2', location: 'A-602', available_copies: 4, total_copies: 8 }] },
+        { program: 'BCA', semester: 6, code: 'BCA602', title: 'Internet of Things', books: [{ title: 'Internet of Things: A Hands-On Approach', author: 'Arshdeep Bahga', publisher: 'Vikas Publishing House', isbn: '978-93-259-645-6', location: 'B-601', available_copies: 6, total_copies: 10 }, { title: 'Designing the Internet of Things', author: 'Adrian McEwen', publisher: 'Wiley', isbn: '978-11-184-944-3', location: 'B-602', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 6, code: 'BCA603', title: 'Machine Learning', books: [{ title: 'Machine Learning', author: 'Tom Mitchell', publisher: 'McGraw Hill', isbn: '978-00-714-280-2', location: 'C-601', available_copies: 7, total_copies: 12 }, { title: 'Introduction to Machine Learning', author: 'Alpaydin', publisher: 'MIT Press', isbn: '978-02-620-324-3', location: 'C-602', available_copies: 5, total_copies: 9 }] },
+        { program: 'BCA', semester: 6, code: 'BCA604', title: 'Project Work', books: [{ title: 'Project Management for IT Professionals', author: 'Kathy Schwalbe', publisher: 'Cengage Learning', isbn: '978-12-856-545-1', location: 'A-603', available_copies: 5, total_copies: 10 }, { title: 'Software Project Management', author: 'Bob Hughes', publisher: 'McGraw Hill', isbn: '978-00-770-954-5', location: 'A-604', available_copies: 4, total_copies: 8 }] },
+        { program: 'BCA', semester: 6, code: 'BCA605', title: 'Viva Voce', books: [{ title: 'Viva Voice for BCA', author: 'R.K. Gupta', publisher: 'Laxmi Publications', isbn: '978-81-7008-98-7', location: 'B-603', available_copies: 6, total_copies: 12 }, { title: 'Interview Preparation Guide', author: 'Arun Sharma', publisher: 'Tata McGraw Hill', isbn: '978-00-712-345-6', location: 'B-604', available_copies: 5, total_copies: 10 }] },
+        // MCA Semester 1
+        { program: 'MCA', semester: 1, code: 'MCA101', title: 'Discrete Mathematics', books: [{ title: 'Discrete Mathematics', author: 'Seymour Lipschutz', publisher: 'McGraw Hill', isbn: '978-00-716-189-9', location: 'MA-101', available_copies: 6, total_copies: 10 }, { title: 'Discrete Structures', author: 'Tremblay & Manohar', publisher: 'McGraw Hill', isbn: '978-00-704-660-8', location: 'MA-102', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 1, code: 'MCA102', title: 'Data Structures and Algorithms', books: [{ title: 'Introduction to Algorithms', author: 'Cormen', publisher: 'MIT Press', isbn: '978-02-620-338-8', location: 'MB-101', available_copies: 7, total_copies: 12 }, { title: 'Data Structures and Algorithms', author: 'Aho, Hopcroft & Ullman', publisher: 'Pearson', isbn: '978-02-015-624-2', location: 'MB-102', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 1, code: 'MCA103', title: 'Computer Organization and Architecture', books: [{ title: 'Computer Organization and Design', author: 'Patterson & Hennessy', publisher: 'Morgan Kaufmann', isbn: '978-01-260-810-4', location: 'MC-101', available_copies: 6, total_copies: 10 }, { title: 'Computer Architecture: A Quantitative Approach', author: 'Hennessy & Patterson', publisher: 'Morgan Kaufmann', isbn: '978-01-238-332-1', location: 'MC-102', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 1, code: 'MCA104', title: 'Operating Systems', books: [{ title: 'Operating System Concepts', author: 'Galvin', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'MD-101', available_copies: 8, total_copies: 14 }, { title: 'Modern Operating Systems', author: 'Tanenbaum', publisher: 'Pearson', isbn: '978-01-335-917-5', location: 'MD-102', available_copies: 6, total_copies: 10 }] },
+        { program: 'MCA', semester: 1, code: 'MCA105', title: 'Programming in Python', books: [{ title: 'Python: The Complete Reference', author: 'Martin Brown', publisher: 'McGraw Hill', isbn: '978-00-722-543-8', location: 'ME-101', available_copies: 7, total_copies: 12 }, { title: 'Learning Python', author: 'Mark Lutz', publisher: "O'Reilly", isbn: '978-14-493-559-6', location: 'ME-102', available_copies: 5, total_copies: 9 }] },
+        // MCA Semester 2
+        { program: 'MCA', semester: 2, code: 'MCA201', title: 'Database Management Systems', books: [{ title: 'Database System Concepts', author: 'Korth', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'MA-201', available_copies: 8, total_copies: 14 }, { title: 'Fundamentals of Database Systems', author: 'Navathe', publisher: 'Pearson', isbn: '978-01-239-744-0', location: 'MA-202', available_copies: 6, total_copies: 10 }] },
+        { program: 'MCA', semester: 2, code: 'MCA202', title: 'Computer Networks', books: [{ title: 'Data Communications and Networking', author: 'Forouzan', publisher: 'McGraw Hill', isbn: '978-00-733-254-7', location: 'MB-201', available_copies: 7, total_copies: 12 }, { title: 'Computer Networks', author: 'Tanenbaum', publisher: 'Pearson', isbn: '978-01-321-269-9', location: 'MB-202', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 2, code: 'MCA203', title: 'Software Engineering', books: [{ title: 'Software Engineering', author: 'Pressman', publisher: 'McGraw Hill', isbn: '978-00-733-724-5', location: 'MC-201', available_copies: 6, total_copies: 10 }, { title: 'Software Engineering: A Practitioner Approach', author: 'Roger Pressman', publisher: 'McGraw Hill', isbn: '978-00-735-582-1', location: 'MC-202', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 2, code: 'MCA204', title: 'Web Technologies', books: [{ title: 'Web Technologies', author: 'Uttam K. Roy', publisher: 'Oxford University Press', isbn: '978-01-956-865-2', location: 'MD-201', available_copies: 7, total_copies: 12 }, { title: 'HTML5 and CSS3', author: 'Eric Freeman', publisher: "O'Reilly", isbn: '978-14-493-911-4', location: 'MD-202', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 2, code: 'MCA205', title: 'Advanced Java Programming', books: [{ title: 'Java: The Complete Reference', author: 'Herbert Schildt', publisher: 'McGraw Hill', isbn: '978-00-722-263-8', location: 'ME-201', available_copies: 8, total_copies: 14 }, { title: 'Head First Java', author: 'Kathy Sierra', publisher: "O'Reilly", isbn: '978-05-960-092-0', location: 'ME-202', available_copies: 6, total_copies: 10 }] },
+        // MCA Semester 3
+        { program: 'MCA', semester: 3, code: 'MCA301', title: 'Design and Analysis of Algorithms', books: [{ title: 'Introduction to Algorithms', author: 'Cormen', publisher: 'MIT Press', isbn: '978-02-620-338-8', location: 'MA-301', available_copies: 7, total_copies: 12 }, { title: 'Algorithm Design', author: 'Kleinberg & Tardos', publisher: 'Pearson', isbn: '978-03-212-955-3', location: 'MA-302', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 3, code: 'MCA302', title: 'Artificial Intelligence', books: [{ title: 'Artificial Intelligence: A Modern Approach', author: 'Russell & Norvig', publisher: 'Pearson', isbn: '978-01-360-425-9', location: 'MB-301', available_copies: 8, total_copies: 14 }, { title: 'Introduction to Artificial Intelligence', author: 'Ertel', publisher: 'Springer', isbn: '978-18-488-286-2', location: 'MB-302', available_copies: 6, total_copies: 10 }] },
+        { program: 'MCA', semester: 3, code: 'MCA303', title: 'Cloud Computing', books: [{ title: 'Cloud Computing: Concepts, Technology & Architecture', author: 'Buyya', publisher: 'Morgan Kaufmann', isbn: '978-01-241-070-7', location: 'MC-301', available_copies: 6, total_copies: 10 }, { title: 'Cloud Computing Bible', author: 'Barrie Sosinsky', publisher: 'Wiley', isbn: '978-04-709-035-6', location: 'MC-302', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 3, code: 'MCA304', title: 'Cyber Security', books: [{ title: 'Cryptography and Network Security', author: 'William Stallings', publisher: 'Pearson', isbn: '978-01-335-917-5', location: 'MD-301', available_copies: 7, total_copies: 12 }, { title: 'Computer Security: Principles and Practice', author: 'Stallings & Brown', publisher: 'Pearson', isbn: '978-01-327-743-9', location: 'MD-302', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 3, code: 'MCA305', title: 'Big Data Analytics', books: [{ title: 'Big Data Analytics', author: 'Anil Maheshwari', publisher: 'Wiley', isbn: '978-11-190-632-4', location: 'ME-301', available_copies: 6, total_copies: 10 }, { title: 'Big Data: Principles and Best Practices', author: 'Edd Dumbill', publisher: "O'Reilly", isbn: '978-14-493-613-2', location: 'ME-302', available_copies: 5, total_copies: 9 }] },
+        // MCA Semester 4
+        { program: 'MCA', semester: 4, code: 'MCA401', title: 'Machine Learning', books: [{ title: 'Machine Learning', author: 'Tom Mitchell', publisher: 'McGraw Hill', isbn: '978-00-714-280-2', location: 'MA-401', available_copies: 7, total_copies: 12 }, { title: 'Introduction to Machine Learning', author: 'Alpaydin', publisher: 'MIT Press', isbn: '978-02-620-324-3', location: 'MA-402', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 4, code: 'MCA402', title: 'Internet of Things', books: [{ title: 'Internet of Things: A Hands-On Approach', author: 'Arshdeep Bahga', publisher: 'Vikas Publishing House', isbn: '978-93-259-645-6', location: 'MB-401', available_copies: 6, total_copies: 10 }, { title: 'Designing the Internet of Things', author: 'Adrian McEwen', publisher: 'Wiley', isbn: '978-11-184-944-3', location: 'MB-402', available_copies: 5, total_copies: 9 }] },
+        { program: 'MCA', semester: 4, code: 'MCA403', title: 'Project Work', books: [{ title: 'Project Management for IT Professionals', author: 'Kathy Schwalbe', publisher: 'Cengage Learning', isbn: '978-12-856-545-1', location: 'MC-401', available_copies: 5, total_copies: 10 }, { title: 'Software Project Management', author: 'Bob Hughes', publisher: 'McGraw Hill', isbn: '978-00-770-954-5', location: 'MC-402', available_copies: 4, total_copies: 8 }] },
+        { program: 'MCA', semester: 4, code: 'MCA404', title: 'Viva Voce', books: [{ title: 'Viva Voice for MCA', author: 'R.K. Gupta', publisher: 'Laxmi Publications', isbn: '978-81-7008-99-4', location: 'MD-401', available_copies: 6, total_copies: 12 }, { title: 'Interview Preparation Guide', author: 'Arun Sharma', publisher: 'Tata McGraw Hill', isbn: '978-00-712-345-6', location: 'MD-402', available_copies: 5, total_copies: 10 }] },
+        { program: 'MCA', semester: 4, code: 'MCA405', title: 'Dissertation', books: [{ title: 'Dissertation Writing Guide', author: 'John Biggam', publisher: 'Open University Press', isbn: '978-03-352-368-6', location: 'ME-401', available_copies: 5, total_copies: 10 }, { title: 'Writing Your Dissertation', author: 'Derek Swetnam', publisher: 'How To Books', isbn: '978-18-452-844-9', location: 'ME-402', available_copies: 4, total_copies: 8 }] },
+        // CSE Semester 1
+        { program: 'CSE', semester: 1, code: 'CSE101', title: 'Engineering Mathematics I', books: [{ title: 'Engineering Mathematics I', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-10-1', location: 'CSE-A-101', available_copies: 8, total_copies: 15 }, { title: 'Higher Engineering Mathematics', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-11-8', location: 'CSE-A-102', available_copies: 7, total_copies: 14 }, { title: 'Engineering Mathematics', author: 'N.P. Bali', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CSE-A-103', available_copies: 6, total_copies: 12 }, { title: 'Advanced Engineering Mathematics', author: 'Erwin Kreyszig', publisher: 'Wiley', isbn: '978-04-715-543-9', location: 'CSE-A-104', available_copies: 5, total_copies: 10 }, { title: 'Mathematical Methods', author: 'S. R. K. Iyengar', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CSE-A-105', available_copies: 6, total_copies: 12 }] },
+        { program: 'CSE', semester: 1, code: 'CSE102', title: 'Programming in C', books: [{ title: 'Programming in C', author: 'E. Balagurusamy', publisher: 'McGraw Hill', isbn: '978-00-746-523-4', location: 'CSE-B-101', available_copies: 10, total_copies: 18 }, { title: 'Let Us C', author: 'Yashavant Kanetkar', publisher: 'BPB Publications', isbn: '978-81-7656-98-3', location: 'CSE-B-102', available_copies: 9, total_copies: 16 }, { title: 'The C Programming Language', author: 'Kernighan & Ritchie', publisher: 'Prentice Hall', isbn: '978-01-310-362-7', location: 'CSE-B-103', available_copies: 8, total_copies: 14 }, { title: 'C Programming: A Modern Approach', author: 'K.N. King', publisher: 'W. W. Norton', isbn: '978-03-939-795-0', location: 'CSE-B-104', available_copies: 7, total_copies: 12 }, { title: 'Head First C', author: 'David Griffiths', publisher: "O'Reilly", isbn: '978-14-493-998-6', location: 'CSE-B-105', available_copies: 8, total_copies: 14 }] },
+        { program: 'CSE', semester: 1, code: 'CSE103', title: 'Basic Electrical Engineering', books: [{ title: 'Basic Electrical Engineering', author: 'V.K. Mehta', publisher: 'S. Chand', isbn: '978-81-219-244-2', location: 'CSE-C-101', available_copies: 9, total_copies: 16 }, { title: 'Electrical Engineering', author: 'V.K. Mehta', publisher: 'S. Chand', isbn: '978-81-219-245-9', location: 'CSE-C-102', available_copies: 8, total_copies: 15 }, { title: 'Principles of Electrical Engineering', author: 'V.K. Mehta', publisher: 'S. Chand', isbn: '978-81-219-246-6', location: 'CSE-C-103', available_copies: 7, total_copies: 13 }, { title: 'Electrical Engineering Fundamentals', author: 'Vincent Del Toro', publisher: 'Prentice Hall', isbn: '978-01-324-764-3', location: 'CSE-C-104', available_copies: 6, total_copies: 12 }, { title: 'Basic Electrical Technology', author: 'B.L. Theraja', publisher: 'S. Chand', isbn: '978-81-219-247-3', location: 'CSE-C-105', available_copies: 7, total_copies: 13 }] },
+        { program: 'CSE', semester: 1, code: 'CSE104', title: 'Engineering Physics', books: [{ title: 'Engineering Physics', author: 'H.K. Malik', publisher: 'McGraw Hill', isbn: '978-00-746-523-4', location: 'CSE-D-101', available_copies: 8, total_copies: 15 }, { title: 'Physics for Engineers', author: 'H.K. Malik', publisher: 'McGraw Hill', isbn: '978-00-746-524-1', location: 'CSE-D-102', available_copies: 7, total_copies: 14 }, { title: 'Engineering Physics', author: 'Gaur & Gupta', publisher: 'Dhanpat Rai', isbn: '978-81-874-327-6', location: 'CSE-D-103', available_copies: 6, total_copies: 12 }, { title: 'Concepts of Physics', author: 'H.C. Verma', publisher: 'Bharati Bhawan', isbn: '978-81-770-918-7', location: 'CSE-D-104', available_copies: 8, total_copies: 16 }, { title: 'University Physics', author: 'Young & Freedman', publisher: 'Pearson', isbn: '978-03-215-016-3', location: 'CSE-D-105', available_copies: 7, total_copies: 14 }] },
+        { program: 'CSE', semester: 1, code: 'CSE105', title: 'Engineering Chemistry', books: [{ title: 'Engineering Chemistry', author: 'P.C. Jain & M. Jain', publisher: 'Dhanpat Rai', isbn: '978-81-874-328-3', location: 'CSE-E-101', available_copies: 8, total_copies: 15 }, { title: 'Engineering Chemistry', author: 'Jain & Jain', publisher: 'Dhanpat Rai', isbn: '978-81-874-329-0', location: 'CSE-E-102', available_copies: 7, total_copies: 14 }, { title: 'Physical Chemistry', author: 'O.P. Tandon', publisher: 'Grb', isbn: '978-93-555-501-7', location: 'CSE-E-103', available_copies: 6, total_copies: 12 }, { title: 'Organic Chemistry', author: 'O.P. Tandon', publisher: 'Grb', isbn: '978-93-555-502-4', location: 'CSE-E-104', available_copies: 7, total_copies: 13 }, { title: 'Inorganic Chemistry', author: 'O.P. Tandon', publisher: 'Grb', isbn: '978-93-555-503-1', location: 'CSE-E-105', available_copies: 6, total_copies: 12 }] },
+        // CSE Semester 2
+        { program: 'CSE', semester: 2, code: 'CSE201', title: 'Engineering Mathematics II', books: [{ title: 'Engineering Mathematics II', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-12-5', location: 'CSE-A-201', available_copies: 8, total_copies: 15 }, { title: 'Higher Engineering Mathematics', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-11-8', location: 'CSE-A-202', available_copies: 7, total_copies: 14 }, { title: 'Engineering Mathematics', author: 'N.P. Bali', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CSE-A-203', available_copies: 6, total_copies: 12 }, { title: 'Advanced Engineering Mathematics', author: 'Erwin Kreyszig', publisher: 'Wiley', isbn: '978-04-715-543-9', location: 'CSE-A-204', available_copies: 7, total_copies: 13 }, { title: 'Mathematical Methods', author: 'S. R. K. Iyengar', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CSE-A-205', available_copies: 6, total_copies: 12 }] },
+        { program: 'CSE', semester: 2, code: 'CSE202', title: 'Data Structures Using C', books: [{ title: 'Data Structures Using C', author: 'Reema Thareja', publisher: 'Oxford', isbn: '978-01-956-864-5', location: 'CSE-B-201', available_copies: 10, total_copies: 18 }, { title: 'Data Structures', author: 'Seymour Lipschutz', publisher: 'McGraw Hill', isbn: '978-00-716-190-5', location: 'CSE-B-202', available_copies: 9, total_copies: 16 }, { title: 'Data Structures and Algorithms', author: 'Aho, Hopcroft & Ullman', publisher: 'Pearson', isbn: '978-02-015-624-2', location: 'CSE-B-203', available_copies: 8, total_copies: 14 }, { title: 'Data Structures Through C in Depth', author: 'S.K. Srivastava', publisher: 'BPB Publications', isbn: '978-81-7656-84-7', location: 'CSE-B-204', available_copies: 7, total_copies: 13 }, { title: 'Data Structures and Algorithms Made Easy', author: 'Narasimha Karumanchi', publisher: 'CareerMonk', isbn: '978-81-932-107-9', location: 'CSE-B-205', available_copies: 8, total_copies: 15 }] },
+        { program: 'CSE', semester: 2, code: 'CSE203', title: 'Digital Electronics', books: [{ title: 'Digital Electronics', author: 'Anil K. Maini', publisher: 'Wiley', isbn: '978-04-708-487-8', location: 'CSE-C-201', available_copies: 9, total_copies: 16 }, { title: 'Digital Fundamentals', author: 'Floyd', publisher: 'Pearson', isbn: '978-81-7758-76-5', location: 'CSE-C-202', available_copies: 8, total_copies: 15 }, { title: 'Digital Electronics', author: 'Morris Mano', publisher: 'Tata McGraw Hill', isbn: '978-00-746-523-4', location: 'CSE-C-203', available_copies: 7, total_copies: 13 }, { title: 'Digital Logic and Computer Design', author: 'M. Morris Mano', publisher: 'Pearson', isbn: '978-01-319-914-6', location: 'CSE-C-204', available_copies: 8, total_copies: 14 }, { title: 'Digital Principles and Applications', author: 'A.K. Maini', publisher: 'Wiley', isbn: '978-04-714-878-4', location: 'CSE-C-205', available_copies: 7, total_copies: 13 }] },
+        { program: 'CSE', semester: 2, code: 'CSE204', title: 'Environmental Studies', books: [{ title: 'Environmental Studies', author: 'Erach Bharucha', publisher: 'Universities Press', isbn: '978-81-737-147-5', location: 'CSE-D-201', available_copies: 8, total_copies: 15 }, { title: 'Environmental Science', author: 'Anubha Kaushik', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CSE-D-202', available_copies: 7, total_copies: 13 }, { title: 'Environmental Studies', author: 'R. Rajagopalan', publisher: 'Oxford', isbn: '978-01-956-865-2', location: 'CSE-D-203', available_copies: 6, total_copies: 12 }, { title: 'Environmental Science', author: 'Bharucha', publisher: 'Universities Press', isbn: '978-81-737-147-5', location: 'CSE-D-204', available_copies: 7, total_copies: 13 }, { title: 'Ecology and Environment', author: 'P.D. Sharma', publisher: 'Rastogi Publications', isbn: '978-81-713-332-8', location: 'CSE-D-205', available_copies: 6, total_copies: 12 }] },
+        { program: 'CSE', semester: 2, code: 'CSE205', title: 'Computer Organization', books: [{ title: 'Computer Organization', author: 'Carl Hamacher', publisher: 'McGraw Hill', isbn: '978-00-736-095-3', location: 'CSE-E-201', available_copies: 9, total_copies: 16 }, { title: 'Computer Organization and Design', author: 'Patterson & Hennessy', publisher: 'Morgan Kaufmann', isbn: '978-01-233-409-1', location: 'CSE-E-202', available_copies: 8, total_copies: 15 }, { title: 'Computer Architecture', author: 'Morris Mano', publisher: 'Prentice Hall', isbn: '978-01-331-752-4', location: 'CSE-E-203', available_copies: 7, total_copies: 13 }, { title: 'Computer System Architecture', author: 'M. Morris Mano', publisher: 'Pearson', isbn: '978-01-331-752-4', location: 'CSE-E-204', available_copies: 8, total_copies: 14 }, { title: 'Structured Computer Organization', author: 'Tanenbaum', publisher: 'Pearson', isbn: '978-01-321-485-2', location: 'CSE-E-205', available_copies: 7, total_copies: 13 }] },
+        // CSE Semester 3
+        { program: 'CSE', semester: 3, code: 'CSE301', title: 'Discrete Mathematics', books: [{ title: 'Discrete Mathematics and Its Applications', author: 'Kenneth H. Rosen', publisher: 'McGraw Hill', isbn: '978-00-733-830-9', location: 'CSE-A-301', available_copies: 10, total_copies: 18 }, { title: 'Discrete Mathematics', author: 'Seymour Lipschutz', publisher: 'McGraw Hill', isbn: '978-00-716-189-9', location: 'CSE-A-302', available_copies: 9, total_copies: 16 }, { title: 'Discrete Structures', author: 'Tremblay & Manohar', publisher: 'McGraw Hill', isbn: '978-00-704-660-8', location: 'CSE-A-303', available_copies: 8, total_copies: 14 }, { title: 'Discrete Mathematics for Computer Scientists', author: 'Truss', publisher: 'Pearson', isbn: '978-02-015-624-2', location: 'CSE-A-304', available_copies: 7, total_copies: 13 }, { title: 'Mathematical Structures for Computer Science', author: 'Judith Gersting', publisher: 'W. H. Freeman', isbn: '978-14-219-220-0', location: 'CSE-A-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'CSE', semester: 3, code: 'CSE302', title: 'Object Oriented Programming with C++', books: [{ title: 'Object Oriented Programming with C++', author: 'E. Balagurusamy', publisher: 'McGraw Hill', isbn: '978-00-746-523-4', location: 'CSE-B-301', available_copies: 10, total_copies: 18 }, { title: 'The C++ Programming Language', author: 'Bjarne Stroustrup', publisher: 'Pearson', isbn: '978-03-215-638-4', location: 'CSE-B-302', available_copies: 9, total_copies: 16 }, { title: 'C++ Primer', author: 'Lippman', publisher: 'Pearson', isbn: '978-03-217-148-4', location: 'CSE-B-303', available_copies: 8, total_copies: 14 }, { title: 'Effective C++', author: 'Scott Meyers', publisher: 'Addison-Wesley', isbn: '978-03-213-348-7', location: 'CSE-B-304', available_copies: 7, total_copies: 13 }, { title: 'C++ How to Program', author: 'Deitel & Deitel', publisher: 'Pearson', isbn: '978-01-336-630-8', location: 'CSE-B-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'CSE', semester: 3, code: 'CSE303', title: 'Digital Logic and Computer Design', books: [{ title: 'Digital Logic and Computer Design', author: 'M. Morris Mano', publisher: 'Pearson', isbn: '978-01-319-914-6', location: 'CSE-C-301', available_copies: 9, total_copies: 16 }, { title: 'Digital Design', author: 'Morris Mano', publisher: 'Pearson', isbn: '978-01-319-914-6', location: 'CSE-C-302', available_copies: 8, total_copies: 15 }, { title: 'Digital Electronics', author: 'Anil K. Maini', publisher: 'Wiley', isbn: '978-04-708-487-8', location: 'CSE-C-303', available_copies: 7, total_copies: 13 }, { title: 'Digital Fundamentals', author: 'Floyd', publisher: 'Pearson', isbn: '978-81-7758-76-5', location: 'CSE-C-304', available_copies: 8, total_copies: 14 }, { title: 'Digital Systems', author: 'Ronald Tocci', publisher: 'Pearson', isbn: '978-01-321-269-9', location: 'CSE-C-305', available_copies: 7, total_copies: 13 }] },
+        { program: 'CSE', semester: 3, code: 'CSE304', title: 'Operating System Concepts', books: [{ title: 'Operating System Concepts', author: 'Abraham Silberschatz', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'CSE-D-301', available_copies: 10, total_copies: 18 }, { title: 'Operating System Concepts', author: 'Galvin', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'CSE-D-302', available_copies: 9, total_copies: 16 }, { title: 'Modern Operating Systems', author: 'Tanenbaum', publisher: 'Pearson', isbn: '978-01-335-917-5', location: 'CSE-D-303', available_copies: 8, total_copies: 14 }, { title: 'Operating Systems: Internals and Design Principles', author: 'William Stallings', publisher: 'Pearson', isbn: '978-01-321-269-9', location: 'CSE-D-304', available_copies: 7, total_copies: 13 }, { title: 'Operating Systems: Three Easy Pieces', author: 'Remzi Arpaci-Dusseau', publisher: 'Arpaci-Dusseau Books', isbn: '978-15-449-533-6', location: 'CSE-D-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'CSE', semester: 3, code: 'CSE305', title: 'Database System Concepts', books: [{ title: 'Database System Concepts', author: 'Korth & Sudarshan', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'CSE-E-301', available_copies: 10, total_copies: 18 }, { title: 'Database System Concepts', author: 'Abraham Silberschatz', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'CSE-E-302', available_copies: 9, total_copies: 16 }, { title: 'Fundamentals of Database Systems', author: 'Navathe', publisher: 'Pearson', isbn: '978-01-239-744-0', location: 'CSE-E-303', available_copies: 8, total_copies: 14 }, { title: 'Database Management Systems', author: 'Raghu Ramakrishnan', publisher: 'McGraw Hill', isbn: '978-00-724-626-3', location: 'CSE-E-304', available_copies: 7, total_copies: 13 }, { title: 'SQL: The Complete Reference', author: 'James Groff', publisher: 'McGraw Hill', isbn: '978-00-722-263-8', location: 'CSE-E-305', available_copies: 8, total_copies: 15 }] },
+        // Mechanical Semester 1
+        { program: 'MECH', semester: 1, code: 'MECH101', title: 'Engineering Mathematics I', books: [{ title: 'Engineering Mathematics I', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-10-1', location: 'MECH-A-101', available_copies: 8, total_copies: 15 }, { title: 'Higher Engineering Mathematics', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-11-8', location: 'MECH-A-102', available_copies: 7, total_copies: 14 }, { title: 'Engineering Mathematics', author: 'N.P. Bali', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'MECH-A-103', available_copies: 6, total_copies: 12 }, { title: 'Advanced Engineering Mathematics', author: 'Erwin Kreyszig', publisher: 'Wiley', isbn: '978-04-715-543-9', location: 'MECH-A-104', available_copies: 5, total_copies: 10 }, { title: 'Mathematical Methods', author: 'S. R. K. Iyengar', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'MECH-A-105', available_copies: 6, total_copies: 12 }] },
+        { program: 'MECH', semester: 1, code: 'MECH102', title: 'Engineering Physics', books: [{ title: 'Engineering Physics', author: 'H.K. Malik', publisher: 'McGraw Hill', isbn: '978-00-746-523-4', location: 'MECH-B-101', available_copies: 8, total_copies: 15 }, { title: 'Physics for Engineers', author: 'H.K. Malik', publisher: 'McGraw Hill', isbn: '978-00-746-524-1', location: 'MECH-B-102', available_copies: 7, total_copies: 14 }, { title: 'Engineering Physics', author: 'Gaur & Gupta', publisher: 'Dhanpat Rai', isbn: '978-81-874-327-6', location: 'MECH-B-103', available_copies: 6, total_copies: 12 }, { title: 'Concepts of Physics', author: 'H.C. Verma', publisher: 'Bharati Bhawan', isbn: '978-81-770-918-7', location: 'MECH-B-104', available_copies: 8, total_copies: 16 }, { title: 'University Physics', author: 'Young & Freedman', publisher: 'Pearson', isbn: '978-03-215-016-3', location: 'MECH-B-105', available_copies: 7, total_copies: 14 }] },
+        { program: 'MECH', semester: 1, code: 'MECH103', title: 'Basic Electrical Engineering', books: [{ title: 'Basic Electrical Engineering', author: 'V.K. Mehta', publisher: 'S. Chand', isbn: '978-81-219-244-2', location: 'MECH-C-101', available_copies: 9, total_copies: 16 }, { title: 'Electrical Engineering', author: 'V.K. Mehta', publisher: 'S. Chand', isbn: '978-81-219-245-9', location: 'MECH-C-102', available_copies: 8, total_copies: 15 }, { title: 'Principles of Electrical Engineering', author: 'V.K. Mehta', publisher: 'S. Chand', isbn: '978-81-219-246-6', location: 'MECH-C-103', available_copies: 7, total_copies: 13 }, { title: 'Electrical Engineering Fundamentals', author: 'Vincent Del Toro', publisher: 'Prentice Hall', isbn: '978-01-324-764-3', location: 'MECH-C-104', available_copies: 6, total_copies: 12 }, { title: 'Basic Electrical Technology', author: 'B.L. Theraja', publisher: 'S. Chand', isbn: '978-81-219-247-3', location: 'MECH-C-105', available_copies: 7, total_copies: 13 }] },
+        { program: 'MECH', semester: 1, code: 'MECH104', title: 'Engineering Mechanics', books: [{ title: 'Engineering Mechanics', author: 'R.K. Bansal', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'MECH-D-101', available_copies: 10, total_copies: 18 }, { title: 'Engineering Mechanics', author: 'S.S. Bhavikatti', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'MECH-D-102', available_copies: 9, total_copies: 16 }, { title: 'Engineering Mechanics: Statics and Dynamics', author: 'Hibbeler', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'MECH-D-103', available_copies: 8, total_copies: 14 }, { title: 'Engineering Mechanics', author: 'K.L. Kumar', publisher: 'S. Chand', isbn: '978-81-219-248-0', location: 'MECH-D-104', available_copies: 7, total_copies: 13 }, { title: 'Mechanics of Materials', author: 'Gere & Goodno', publisher: 'Cengage', isbn: '978-11-132-325-1', location: 'MECH-D-105', available_copies: 8, total_copies: 15 }] },
+        { program: 'MECH', semester: 1, code: 'MECH105', title: 'Engineering Drawing', books: [{ title: 'Engineering Drawing', author: 'N.D. Bhatt', publisher: 'Charotar', isbn: '978-93-501-672-8', location: 'MECH-E-101', available_copies: 10, total_copies: 18 }, { title: 'Engineering Drawing', author: 'P.S. Gill', publisher: 'S.K. Kataria', isbn: '978-93-501-673-5', location: 'MECH-E-102', available_copies: 9, total_copies: 16 }, { title: 'A Textbook of Engineering Drawing', author: 'R.K. Dhawan', publisher: 'S. Chand', isbn: '978-81-219-249-7', location: 'MECH-E-103', available_copies: 8, total_copies: 14 }, { title: 'Machine Drawing', author: 'N.D. Bhatt', publisher: 'Charotar', isbn: '978-93-501-674-2', location: 'MECH-E-104', available_copies: 7, total_copies: 13 }, { title: 'Engineering Graphics', author: 'K. Venugopal', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'MECH-E-105', available_copies: 8, total_copies: 15 }] },
+        // Mechanical Semester 2
+        { program: 'MECH', semester: 2, code: 'MECH201', title: 'Engineering Mathematics II', books: [{ title: 'Engineering Mathematics II', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-12-5', location: 'MECH-A-201', available_copies: 8, total_copies: 15 }, { title: 'Higher Engineering Mathematics', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-11-8', location: 'MECH-A-202', available_copies: 7, total_copies: 14 }, { title: 'Engineering Mathematics', author: 'N.P. Bali', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'MECH-A-203', available_copies: 6, total_copies: 12 }, { title: 'Advanced Engineering Mathematics', author: 'Erwin Kreyszig', publisher: 'Wiley', isbn: '978-04-715-543-9', location: 'MECH-A-204', available_copies: 7, total_copies: 13 }, { title: 'Mathematical Methods', author: 'S. R. K. Iyengar', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'MECH-A-205', available_copies: 6, total_copies: 12 }] },
+        { program: 'MECH', semester: 2, code: 'MECH202', title: 'Thermodynamics', books: [{ title: 'Thermodynamics', author: 'P.K. Nag', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'MECH-B-201', available_copies: 10, total_copies: 18 }, { title: 'Engineering Thermodynamics', author: 'P.K. Nag', publisher: 'McGraw Hill', isbn: '978-00-735-234-9', location: 'MECH-B-202', available_copies: 9, total_copies: 16 }, { title: 'Thermodynamics: An Engineering Approach', author: 'Cengel & Boles', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'MECH-B-203', available_copies: 8, total_copies: 14 }, { title: 'Fundamentals of Thermodynamics', author: 'Sonntag', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'MECH-B-204', available_copies: 7, total_copies: 13 }, { title: 'Applied Thermodynamics', author: 'R. Yadav', publisher: 'Central Books', isbn: '978-81-7008-99-4', location: 'MECH-B-205', available_copies: 8, total_copies: 15 }] },
+        { program: 'MECH', semester: 2, code: 'MECH203', title: 'Material Science', books: [{ title: 'Material Science', author: 'V. Raghavan', publisher: 'PHI', isbn: '978-81-203-352-3', location: 'MECH-C-201', available_copies: 9, total_copies: 16 }, { title: 'Material Science and Engineering', author: 'Callister', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'MECH-C-202', available_copies: 8, total_copies: 15 }, { title: 'Engineering Materials', author: 'R. K. Rajput', publisher: 'S. Chand', isbn: '978-81-219-250-3', location: 'MECH-C-203', available_copies: 7, total_copies: 13 }, { title: 'Materials Science', author: 'B.D. Sharma', publisher: 'S.K. Kataria', isbn: '978-93-501-675-9', location: 'MECH-C-204', available_copies: 6, total_copies: 12 }, { title: 'Introduction to Material Science', author: 'William Callister', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'MECH-C-205', available_copies: 7, total_copies: 13 }] },
+        { program: 'MECH', semester: 2, code: 'MECH204', title: 'Manufacturing Process', books: [{ title: 'Manufacturing Process', author: 'P.N. Rao', publisher: 'McGraw Hill', isbn: '978-00-735-235-6', location: 'MECH-D-201', available_copies: 10, total_copies: 18 }, { title: 'Manufacturing Technology', author: 'P.N. Rao', publisher: 'McGraw Hill', isbn: '978-00-735-236-3', location: 'MECH-D-202', available_copies: 9, total_copies: 16 }, { title: 'Manufacturing Engineering and Technology', author: 'Kalpakjian', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'MECH-D-203', available_copies: 8, total_copies: 14 }, { title: 'Manufacturing Processes', author: 'H.M.T. Workshop', publisher: 'Kataria', isbn: '978-93-501-676-6', location: 'MECH-D-204', available_copies: 7, total_copies: 13 }, { title: 'Production Technology', author: 'R.K. Jain', publisher: 'Khanna Publishers', isbn: '978-93-86082-13-2', location: 'MECH-D-205', available_copies: 8, total_copies: 15 }] },
+        { program: 'MECH', semester: 2, code: 'MECH205', title: 'Fluid Mechanics', books: [{ title: 'Fluid Mechanics', author: 'R.K. Rajput', publisher: 'S. Chand', isbn: '978-81-219-251-0', location: 'MECH-E-201', available_copies: 9, total_copies: 16 }, { title: 'Fluid Mechanics and Hydraulic Machines', author: 'R.K. Bansal', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'MECH-E-202', available_copies: 8, total_copies: 15 }, { title: 'Fluid Mechanics', author: 'Frank White', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'MECH-E-203', available_copies: 7, total_copies: 13 }, { title: 'Introduction to Fluid Mechanics', author: 'Fox', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'MECH-E-204', available_copies: 6, total_copies: 12 }, { title: 'Fluid Mechanics', author: 'Shames', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'MECH-E-205', available_copies: 7, total_copies: 13 }] },
+        // Mechanical Semester 3
+        { program: 'MECH', semester: 3, code: 'MECH301', title: 'Strength of Materials', books: [{ title: 'Strength of Materials', author: 'R.K. Bansal', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'MECH-A-301', available_copies: 10, total_copies: 18 }, { title: 'Strength of Materials', author: 'S.S. Bhavikatti', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'MECH-A-302', available_copies: 9, total_copies: 16 }, { title: 'Mechanics of Materials', author: 'Gere & Goodno', publisher: 'Cengage', isbn: '978-11-132-325-1', location: 'MECH-A-303', available_copies: 8, total_copies: 14 }, { title: 'Strength of Materials', author: 'Timoshenko', publisher: 'D. Van Nostrand', isbn: '978-04-716-946-4', location: 'MECH-A-304', available_copies: 7, total_copies: 13 }, { title: 'Strength of Materials', author: 'B.C. Punmia', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'MECH-A-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'MECH', semester: 3, code: 'MECH302', title: 'Theory of Machines', books: [{ title: 'Theory of Machines', author: 'S.S. Rattan', publisher: 'McGraw Hill', isbn: '978-00-735-237-0', location: 'MECH-B-301', available_copies: 10, total_copies: 18 }, { title: 'Theory of Machines', author: 'R.S. Khurmi', publisher: 'S. Chand', isbn: '978-81-219-252-7', location: 'MECH-B-302', available_copies: 9, total_copies: 16 }, { title: 'Theory of Machines and Mechanisms', author: 'Shigley', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'MECH-B-303', available_copies: 8, total_copies: 14 }, { title: 'Mechanism and Machine Theory', author: 'J.S. Rao', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'MECH-B-304', available_copies: 7, total_copies: 13 }, { title: 'Theory of Machines', author: 'Thomas Bevan', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'MECH-B-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'MECH', semester: 3, code: 'MECH303', title: 'Heat Transfer', books: [{ title: 'Heat Transfer', author: 'C.P. Kothandaraman', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'MECH-C-301', available_copies: 9, total_copies: 16 }, { title: 'Heat and Mass Transfer', author: 'R.K. Rajput', publisher: 'S. Chand', isbn: '978-81-219-253-4', location: 'MECH-C-302', available_copies: 8, total_copies: 15 }, { title: 'Fundamentals of Heat and Mass Transfer', author: 'Incropera', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'MECH-C-303', available_copies: 7, total_copies: 13 }, { title: 'Heat Transfer', author: 'J.P. Holman', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'MECH-C-304', available_copies: 6, total_copies: 12 }, { title: 'Engineering Heat Transfer', author: 'S.P. Sukhatme', publisher: 'Universities Press', isbn: '978-81-737-147-5', location: 'MECH-C-305', available_copies: 7, total_copies: 13 }] },
+        { program: 'MECH', semester: 3, code: 'MECH304', title: 'Machine Drawing', books: [{ title: 'Machine Drawing', author: 'K.L. Narayana', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'MECH-D-301', available_copies: 10, total_copies: 18 }, { title: 'Machine Drawing', author: 'N.D. Bhatt', publisher: 'Charotar', isbn: '978-93-501-674-2', location: 'MECH-D-302', available_copies: 9, total_copies: 16 }, { title: 'A Textbook of Machine Drawing', author: 'R.K. Dhawan', publisher: 'S. Chand', isbn: '978-81-219-254-1', location: 'MECH-D-303', available_copies: 8, total_copies: 14 }, { title: 'Machine Design Drawing', author: 'P.S. Gill', publisher: 'S.K. Kataria', isbn: '978-93-501-673-5', location: 'MECH-D-304', available_copies: 7, total_copies: 13 }, { title: 'Engineering Graphics and Design', author: 'K. Venugopal', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'MECH-D-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'MECH', semester: 3, code: 'MECH305', title: 'Engineering Thermodynamics', books: [{ title: 'Engineering Thermodynamics', author: 'P.K. Nag', publisher: 'McGraw Hill', isbn: '978-00-735-234-9', location: 'MECH-E-301', available_copies: 10, total_copies: 18 }, { title: 'Thermodynamics', author: 'P.K. Nag', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'MECH-E-302', available_copies: 9, total_copies: 16 }, { title: 'Thermodynamics: An Engineering Approach', author: 'Cengel & Boles', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'MECH-E-303', available_copies: 8, total_copies: 14 }, { title: 'Fundamentals of Thermodynamics', author: 'Sonntag', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'MECH-E-304', available_copies: 7, total_copies: 13 }, { title: 'Applied Thermodynamics', author: 'R. Yadav', publisher: 'Central Books', isbn: '978-81-7008-99-4', location: 'MECH-E-305', available_copies: 8, total_copies: 15 }] },
+        // Civil Semester 1
+        { program: 'CIVIL', semester: 1, code: 'CIVIL101', title: 'Engineering Mathematics I', books: [{ title: 'Engineering Mathematics I', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-10-1', location: 'CIVIL-A-101', available_copies: 8, total_copies: 15 }, { title: 'Higher Engineering Mathematics', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-11-8', location: 'CIVIL-A-102', available_copies: 7, total_copies: 14 }, { title: 'Engineering Mathematics', author: 'N.P. Bali', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-A-103', available_copies: 6, total_copies: 12 }, { title: 'Advanced Engineering Mathematics', author: 'Erwin Kreyszig', publisher: 'Wiley', isbn: '978-04-715-543-9', location: 'CIVIL-A-104', available_copies: 5, total_copies: 10 }, { title: 'Mathematical Methods', author: 'S. R. K. Iyengar', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CIVIL-A-105', available_copies: 6, total_copies: 12 }] },
+        { program: 'CIVIL', semester: 1, code: 'CIVIL102', title: 'Engineering Physics', books: [{ title: 'Engineering Physics', author: 'H.K. Malik', publisher: 'McGraw Hill', isbn: '978-00-746-523-4', location: 'CIVIL-B-101', available_copies: 8, total_copies: 15 }, { title: 'Physics for Engineers', author: 'H.K. Malik', publisher: 'McGraw Hill', isbn: '978-00-746-524-1', location: 'CIVIL-B-102', available_copies: 7, total_copies: 14 }, { title: 'Engineering Physics', author: 'Gaur & Gupta', publisher: 'Dhanpat Rai', isbn: '978-81-874-327-6', location: 'CIVIL-B-103', available_copies: 6, total_copies: 12 }, { title: 'Concepts of Physics', author: 'H.C. Verma', publisher: 'Bharati Bhawan', isbn: '978-81-770-918-7', location: 'CIVIL-B-104', available_copies: 8, total_copies: 16 }, { title: 'University Physics', author: 'Young & Freedman', publisher: 'Pearson', isbn: '978-03-215-016-3', location: 'CIVIL-B-105', available_copies: 7, total_copies: 14 }] },
+        { program: 'CIVIL', semester: 1, code: 'CIVIL103', title: 'Engineering Chemistry', books: [{ title: 'Engineering Chemistry', author: 'P.C. Jain & M. Jain', publisher: 'Dhanpat Rai', isbn: '978-81-874-328-3', location: 'CIVIL-C-101', available_copies: 8, total_copies: 15 }, { title: 'Engineering Chemistry', author: 'Jain & Jain', publisher: 'Dhanpat Rai', isbn: '978-81-874-329-0', location: 'CIVIL-C-102', available_copies: 7, total_copies: 14 }, { title: 'Physical Chemistry', author: 'O.P. Tandon', publisher: 'Grb', isbn: '978-93-555-501-7', location: 'CIVIL-C-103', available_copies: 6, total_copies: 12 }, { title: 'Organic Chemistry', author: 'O.P. Tandon', publisher: 'Grb', isbn: '978-93-555-502-4', location: 'CIVIL-C-104', available_copies: 7, total_copies: 13 }, { title: 'Inorganic Chemistry', author: 'O.P. Tandon', publisher: 'Grb', isbn: '978-93-555-503-1', location: 'CIVIL-C-105', available_copies: 6, total_copies: 12 }] },
+        { program: 'CIVIL', semester: 1, code: 'CIVIL104', title: 'Basic Electrical Engineering', books: [{ title: 'Basic Electrical Engineering', author: 'V.K. Mehta', publisher: 'S. Chand', isbn: '978-81-219-244-2', location: 'CIVIL-D-101', available_copies: 9, total_copies: 16 }, { title: 'Electrical Engineering', author: 'V.K. Mehta', publisher: 'S. Chand', isbn: '978-81-219-245-9', location: 'CIVIL-D-102', available_copies: 8, total_copies: 15 }, { title: 'Principles of Electrical Engineering', author: 'V.K. Mehta', publisher: 'S. Chand', isbn: '978-81-219-246-6', location: 'CIVIL-D-103', available_copies: 7, total_copies: 13 }, { title: 'Electrical Engineering Fundamentals', author: 'Vincent Del Toro', publisher: 'Prentice Hall', isbn: '978-01-324-764-3', location: 'CIVIL-D-104', available_copies: 6, total_copies: 12 }, { title: 'Basic Electrical Technology', author: 'B.L. Theraja', publisher: 'S. Chand', isbn: '978-81-219-247-3', location: 'CIVIL-D-105', available_copies: 7, total_copies: 13 }] },
+        { program: 'CIVIL', semester: 1, code: 'CIVIL105', title: 'Engineering Drawing', books: [{ title: 'Engineering Drawing', author: 'N.D. Bhatt', publisher: 'Charotar', isbn: '978-93-501-672-8', location: 'CIVIL-E-101', available_copies: 10, total_copies: 18 }, { title: 'Engineering Drawing', author: 'P.S. Gill', publisher: 'S.K. Kataria', isbn: '978-93-501-673-5', location: 'CIVIL-E-102', available_copies: 9, total_copies: 16 }, { title: 'A Textbook of Engineering Drawing', author: 'R.K. Dhawan', publisher: 'S. Chand', isbn: '978-81-219-249-7', location: 'CIVIL-E-103', available_copies: 8, total_copies: 14 }, { title: 'Machine Drawing', author: 'N.D. Bhatt', publisher: 'Charotar', isbn: '978-93-501-674-2', location: 'CIVIL-E-104', available_copies: 7, total_copies: 13 }, { title: 'Engineering Graphics', author: 'K. Venugopal', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CIVIL-E-105', available_copies: 8, total_copies: 15 }] },
+        // Civil Semester 2
+        { program: 'CIVIL', semester: 2, code: 'CIVIL201', title: 'Engineering Mathematics II', books: [{ title: 'Engineering Mathematics II', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-12-5', location: 'CIVIL-A-201', available_copies: 8, total_copies: 15 }, { title: 'Higher Engineering Mathematics', author: 'B.S. Grewal', publisher: 'Khanna Publishers', isbn: '978-93-86082-11-8', location: 'CIVIL-A-202', available_copies: 7, total_copies: 14 }, { title: 'Engineering Mathematics', author: 'N.P. Bali', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-A-203', available_copies: 6, total_copies: 12 }, { title: 'Advanced Engineering Mathematics', author: 'Erwin Kreyszig', publisher: 'Wiley', isbn: '978-04-715-543-9', location: 'CIVIL-A-204', available_copies: 7, total_copies: 13 }, { title: 'Mathematical Methods', author: 'S. R. K. Iyengar', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CIVIL-A-205', available_copies: 6, total_copies: 12 }] },
+        { program: 'CIVIL', semester: 2, code: 'CIVIL202', title: 'Engineering Mechanics', books: [{ title: 'Engineering Mechanics', author: 'R.K. Bansal', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-B-201', available_copies: 10, total_copies: 18 }, { title: 'Engineering Mechanics', author: 'S.S. Bhavikatti', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CIVIL-B-202', available_copies: 9, total_copies: 16 }, { title: 'Engineering Mechanics: Statics and Dynamics', author: 'Hibbeler', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'CIVIL-B-203', available_copies: 8, total_copies: 14 }, { title: 'Engineering Mechanics', author: 'K.L. Kumar', publisher: 'S. Chand', isbn: '978-81-219-248-0', location: 'CIVIL-B-204', available_copies: 7, total_copies: 13 }, { title: 'Mechanics of Materials', author: 'Gere & Goodno', publisher: 'Cengage', isbn: '978-11-132-325-1', location: 'CIVIL-B-205', available_copies: 8, total_copies: 15 }] },
+        { program: 'CIVIL', semester: 2, code: 'CIVIL203', title: 'Surveying Volume 1', books: [{ title: 'Surveying Volume 1', author: 'B.C. Punmia', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-C-201', available_copies: 10, total_copies: 18 }, { title: 'Surveying', author: 'B.C. Punmia', publisher: 'Laxmi Publications', isbn: '978-81-7008-99-4', location: 'CIVIL-C-202', available_copies: 9, total_copies: 16 }, { title: 'Surveying and Leveling', author: 'Kanetkar', publisher: 'Pune Vidyarthi Griha', isbn: '978-81-932-107-9', location: 'CIVIL-C-203', available_copies: 8, total_copies: 14 }, { title: 'Higher Surveying', author: 'A.M. Chandra', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CIVIL-C-204', available_copies: 7, total_copies: 13 }, { title: 'Fundamentals of Surveying', author: 'S.K. Roy', publisher: 'Prentice Hall', isbn: '978-01-331-523-4', location: 'CIVIL-C-205', available_copies: 8, total_copies: 15 }] },
+        { program: 'CIVIL', semester: 2, code: 'CIVIL204', title: 'Building Materials', books: [{ title: 'Building Materials', author: 'S.K. Duggal', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CIVIL-D-201', available_copies: 9, total_copies: 16 }, { title: 'Building Construction', author: 'B.C. Punmia', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-D-202', available_copies: 8, total_copies: 15 }, { title: 'Building Materials', author: 'P.C. Varghese', publisher: 'Prentice Hall', isbn: '978-01-331-523-4', location: 'CIVIL-D-203', available_copies: 7, total_copies: 13 }, { title: 'Construction Materials', author: 'Mamlouk', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'CIVIL-D-204', available_copies: 6, total_copies: 12 }, { title: 'Material of Construction', author: 'S.C. Rangwala', publisher: 'Charotar', isbn: '978-93-501-672-8', location: 'CIVIL-D-205', available_copies: 7, total_copies: 13 }] },
+        { program: 'CIVIL', semester: 2, code: 'CIVIL205', title: 'Fluid Mechanics', books: [{ title: 'Fluid Mechanics', author: 'H.K. Dass', publisher: 'S. Chand', isbn: '978-81-219-251-0', location: 'CIVIL-E-201', available_copies: 9, total_copies: 16 }, { title: 'Fluid Mechanics and Hydraulic Machines', author: 'R.K. Bansal', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-E-202', available_copies: 8, total_copies: 15 }, { title: 'Fluid Mechanics', author: 'Frank White', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'CIVIL-E-203', available_copies: 7, total_copies: 13 }, { title: 'Introduction to Fluid Mechanics', author: 'Fox', publisher: 'Wiley', isbn: '978-04-716-946-4', location: 'CIVIL-E-204', available_copies: 6, total_copies: 12 }, { title: 'Fluid Mechanics', author: 'Shames', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'CIVIL-E-205', available_copies: 7, total_copies: 13 }] },
+        // Civil Semester 3
+        { program: 'CIVIL', semester: 3, code: 'CIVIL301', title: 'Strength of Materials', books: [{ title: 'Strength of Materials', author: 'R.K. Bansal', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-A-301', available_copies: 10, total_copies: 18 }, { title: 'Strength of Materials', author: 'S.S. Bhavikatti', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CIVIL-A-302', available_copies: 9, total_copies: 16 }, { title: 'Mechanics of Materials', author: 'Gere & Goodno', publisher: 'Cengage', isbn: '978-11-132-325-1', location: 'CIVIL-A-303', available_copies: 8, total_copies: 14 }, { title: 'Strength of Materials', author: 'Timoshenko', publisher: 'D. Van Nostrand', isbn: '978-04-716-946-4', location: 'CIVIL-A-304', available_copies: 7, total_copies: 13 }, { title: 'Strength of Materials', author: 'B.C. Punmia', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-A-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'CIVIL', semester: 3, code: 'CIVIL302', title: 'Structural Analysis', books: [{ title: 'Structural Analysis', author: 'S.S. Bhavikatti', publisher: 'Vikas', isbn: '978-93-259-645-6', location: 'CIVIL-B-301', available_copies: 10, total_copies: 18 }, { title: 'Structural Analysis', author: 'B.C. Punmia', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-B-302', available_copies: 9, total_copies: 16 }, { title: 'Structural Analysis', author: 'Hibbeler', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'CIVIL-B-303', available_copies: 8, total_copies: 14 }, { title: 'Theory of Structures', author: 'S.P. Timoshenko', publisher: 'McGraw Hill', isbn: '978-00-735-233-2', location: 'CIVIL-B-304', available_copies: 7, total_copies: 13 }, { title: 'Structural Analysis I', author: 'Aslam Kassimali', publisher: 'Cengage', isbn: '978-11-132-325-1', location: 'CIVIL-B-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'CIVIL', semester: 3, code: 'CIVIL303', title: 'Surveying Volume 2', books: [{ title: 'Surveying Volume 2', author: 'B.C. Punmia', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-C-301', available_copies: 10, total_copies: 18 }, { title: 'Surveying', author: 'B.C. Punmia', publisher: 'Laxmi Publications', isbn: '978-81-7008-99-4', location: 'CIVIL-C-302', available_copies: 9, total_copies: 16 }, { title: 'Surveying and Leveling', author: 'Kanetkar', publisher: 'Pune Vidyarthi Griha', isbn: '978-81-932-107-9', location: 'CIVIL-C-303', available_copies: 8, total_copies: 14 }, { title: 'Higher Surveying', author: 'A.M. Chandra', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CIVIL-C-304', available_copies: 7, total_copies: 13 }, { title: 'Fundamentals of Surveying', author: 'S.K. Roy', publisher: 'Prentice Hall', isbn: '978-01-331-523-4', location: 'CIVIL-C-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'CIVIL', semester: 3, code: 'CIVIL304', title: 'Concrete Technology', books: [{ title: 'Concrete Technology', author: 'M.S. Shetty', publisher: 'S. Chand', isbn: '978-81-219-252-7', location: 'CIVIL-D-301', available_copies: 10, total_copies: 18 }, { title: 'Concrete Technology', author: 'M.S. Shetty', publisher: 'S. Chand', isbn: '978-81-219-253-4', location: 'CIVIL-D-302', available_copies: 9, total_copies: 16 }, { title: 'Concrete Technology', author: 'Neville', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'CIVIL-D-303', available_copies: 8, total_copies: 14 }, { title: 'Properties of Concrete', author: 'A.M. Neville', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'CIVIL-D-304', available_copies: 7, total_copies: 13 }, { title: 'Concrete Materials', author: 'Mamlouk', publisher: 'Pearson', isbn: '978-01-331-523-4', location: 'CIVIL-D-305', available_copies: 8, total_copies: 15 }] },
+        { program: 'CIVIL', semester: 3, code: 'CIVIL305', title: 'Geotechnical Engineering', books: [{ title: 'Geotechnical Engineering', author: 'K.R. Arora', publisher: 'Standard Publishers', isbn: '978-81-7008-99-4', location: 'CIVIL-E-301', available_copies: 10, total_copies: 18 }, { title: 'Geotechnical Engineering', author: 'B.C. Punmia', publisher: 'Laxmi Publications', isbn: '978-81-7008-15-2', location: 'CIVIL-E-302', available_copies: 9, total_copies: 16 }, { title: 'Principles of Geotechnical Engineering', author: 'Braja Das', publisher: 'Cengage', isbn: '978-11-132-325-1', location: 'CIVIL-E-303', available_copies: 8, total_copies: 14 }, { title: 'Soil Mechanics', author: 'K.R. Arora', publisher: 'Standard Publishers', isbn: '978-81-7008-99-4', location: 'CIVIL-E-304', available_copies: 7, total_copies: 13 }, { title: 'Geotechnical Engineering', author: 'Venkatramaiah', publisher: 'New Age', isbn: '978-81-224-244-1', location: 'CIVIL-E-305', available_copies: 8, total_copies: 15 }] },
+      ];
+
+      // Read subjects from localStorage first, then fall back to embedded data
+      let subjectsData = JSON.parse(localStorage.getItem('booknest_subjects')) || embeddedSubjectsData;
+
+      const generalBooks = [
+        { title: 'To Kill a Mockingbird', author: 'Harper Lee', publisher: 'J.B. Lippincott & Co.', isbn: '978-00-611-236-8', location: 'GEN-001', available_copies: 8, total_copies: 15 },
+        { title: '1984', author: 'George Orwell', publisher: 'Secker & Warburg', isbn: '978-04-515-249-3', location: 'GEN-002', available_copies: 7, total_copies: 14 },
+        { title: 'Pride and Prejudice', author: 'Jane Austen', publisher: 'T. Egerton', isbn: '978-01-414-3951-8', location: 'GEN-003', available_copies: 6, total_copies: 12 },
+        { title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', publisher: 'Charles Scribner\'s Sons', isbn: '978-07-432-735-6', location: 'GEN-004', available_copies: 5, total_copies: 10 },
+        { title: 'The Catcher in the Rye', author: 'J.D. Salinger', publisher: 'Little, Brown and Company', isbn: '978-03-162-695-3', location: 'GEN-005', available_copies: 6, total_copies: 11 }
+      ];
+
+      const newspapers = [
+        { title: 'The Times of India', author: 'The Times Group', publisher: 'The Times Group', isbn: 'NP-001', location: 'NP-001', available_copies: 10, total_copies: 20 },
+        { title: 'Hindustan Times', author: 'HT Media Ltd', publisher: 'HT Media Ltd', isbn: 'NP-002', location: 'NP-002', available_copies: 8, total_copies: 16 },
+        { title: 'The Hindu', author: 'The Hindu Group', publisher: 'The Hindu Group', isbn: 'NP-003', location: 'NP-003', available_copies: 9, total_copies: 18 },
+        { title: 'Dainik Jagran', author: 'Jagran Prakashan', publisher: 'Jagran Prakashan', isbn: 'NP-004', location: 'NP-004', available_copies: 10, total_copies: 20 },
+        { title: 'Punjab Kesari', author: 'Punjab Kesari Group', publisher: 'Punjab Kesari Group', isbn: 'NP-005', location: 'NP-005', available_copies: 7, total_copies: 14 }
+      ];
+
+      const inventory = new Map();
+      subjectsData.forEach(s => {
+        const key = `${s.program}_${s.semester}_${s.code}`;
+        inventory.set(key, s);
+      });
+
+      // Sync subjectsData to localStorage for admin panel (only if using embedded data)
+      if (!localStorage.getItem('booknest_subjects')) {
+        localStorage.setItem('booknest_subjects', JSON.stringify(subjectsData));
+      }
+
+      // Sync all books to localStorage for admin panel
+      const allBooks = [...subjectsData.flatMap(s => s.books), ...generalBooks, ...newspapers];
+      if (!localStorage.getItem('booknest_books')) {
+        localStorage.setItem('booknest_books', JSON.stringify(allBooks));
+      }
+
+      let currentEnrollment = '', selectedProgram = '', selectedSemester = null, selectedSubject = null;
+      let navigationHistory = [];
+      const globalBackBtn = document.getElementById('globalBackBtn');
+
+      const loginSection = document.getElementById('login-section');
+      const homeSection = document.getElementById('home-section');
+      const subjectsSection = document.getElementById('subjectsSection');
+      const booksSection = document.getElementById('booksSection');
+      const searchSection = document.getElementById('searchResultsSection');
+      const issueConfirmSection = document.getElementById('issueConfirmationSection');
+
+      const loginFormContainer = document.getElementById('loginFormContainer');
+      const signupFormContainer = document.getElementById('signupFormContainer');
+      const showSignupBtn = document.getElementById('showSignupBtn');
+      const showLoginBtn = document.getElementById('showLoginBtn');
+
+      const loginBtn = document.getElementById('loginBtn');
+      const enrollInput = document.getElementById('enrollInput');
+      const passInput = document.getElementById('passwordInput');
+      const captchaInput = document.getElementById('captchaInput');
+      const captchaQuestion = document.getElementById('captchaQuestion');
+      const captchaAnswer = document.getElementById('captchaAnswer');
+      const refreshCaptchaBtn = document.getElementById('refreshCaptchaBtn');
+      const loginError = document.getElementById('loginError');
+
+      const signupBtn = document.getElementById('signupBtn');
+      const signupName = document.getElementById('signupName');
+      const signupEnroll = document.getElementById('signupEnroll');
+      const signupEmail = document.getElementById('signupEmail');
+      const signupPassword = document.getElementById('signupPassword');
+      const signupDepartment = document.getElementById('signupDepartment');
+      const signupYear = document.getElementById('signupYear');
+      const signupCaptchaInput = document.getElementById('signupCaptchaInput');
+      const signupCaptchaQuestion = document.getElementById('signupCaptchaQuestion');
+      const signupCaptchaAnswer = document.getElementById('signupCaptchaAnswer');
+      const refreshSignupCaptchaBtn = document.getElementById('refreshSignupCaptchaBtn');
+      const signupError = document.getElementById('signupError');
+      const signupSuccess = document.getElementById('signupSuccess');
+
+      const logoutBtn = document.getElementById('logoutBtn');
+      const deptCA = document.getElementById('deptCA');
+      const deptEngg = document.getElementById('deptEngg');
+      const generalBooksBtn = document.getElementById('generalBooksBtn');
+      const newspapersBtn = document.getElementById('newspapersBtn');
+
+      console.log('Buttons found:', {
+        logoutBtn: !!logoutBtn,
+        deptCA: !!deptCA,
+        deptEngg: !!deptEngg,
+        generalBooksBtn: !!generalBooksBtn,
+        newspapersBtn: !!newspapersBtn
+      });
+      const programPanel = document.getElementById('programSemesterPanel');
+      const programDisplay = document.getElementById('selectedProgramDisplay');
+      const programBtnContainer = document.getElementById('programButtonsContainer');
+      const semesterSelect = document.getElementById('semesterSelect');
+      const goToSubjectsBtn = document.getElementById('goToSubjectsBtn');
+      const subjectsTitle = document.getElementById('subjectsTitle');
+      const subjectsContainer = document.getElementById('subjectsContainer');
+      const booksTitle = document.getElementById('booksTitle');
+      const booksContainer = document.getElementById('booksContainer');
+      const backHomeFromSubjects = document.getElementById('backHomeFromSubjects');
+      const backToSubjects = document.getElementById('backToSubjects');
+      const backHomeFromSearch = document.getElementById('backHomeFromSearch');
+      const backHomeFromConfirm = document.getElementById('backHomeFromConfirm');
+      const searchBtn = document.getElementById('searchBtn');
+      const searchInput = document.getElementById('searchInput');
+      const searchResultsDiv = document.getElementById('searchResultsContainer');
+      const confirmBookTitle = document.getElementById('confirmBookTitle');
+      const confirmBookAuthor = document.getElementById('confirmBookAuthor');
+      const confirmBookIsbn = document.getElementById('confirmBookIsbn');
+      const confirmBookLocation = document.getElementById('confirmBookLocation');
+      const confirmEnrollment = document.getElementById('confirmEnrollment');
+
+      function generateCaptcha() {
+        const n1 = Math.floor(Math.random() * 10), n2 = Math.floor(Math.random() * 10);
+        captchaQuestion.innerText = `${n1} + ${n2} = ?`;
+        captchaAnswer.value = n1 + n2;
+      }
+      function generateSignupCaptcha() {
+        const n1 = Math.floor(Math.random() * 10), n2 = Math.floor(Math.random() * 10);
+        signupCaptchaQuestion.innerText = `${n1} + ${n2} = ?`;
+        signupCaptchaAnswer.value = n1 + n2;
+      }
+      refreshCaptchaBtn.onclick = (e) => { e.preventDefault(); generateCaptcha(); };
+      refreshSignupCaptchaBtn.onclick = (e) => { e.preventDefault(); generateSignupCaptcha(); };
+      generateCaptcha();
+      generateSignupCaptcha();
+
+      // Toggle between login and signup forms
+      showSignupBtn.onclick = (e) => { e.preventDefault(); loginFormContainer.style.display = 'none'; signupFormContainer.style.display = 'block'; };
+      showLoginBtn.onclick = (e) => { e.preventDefault(); signupFormContainer.style.display = 'none'; loginFormContainer.style.display = 'block'; };
+
+      function showSection(section) {
+        const currentVisible = [loginSection, homeSection, subjectsSection, booksSection, searchSection, issueConfirmSection].find(s => s.style.display === 'block');
+
+        // Track navigation history (skip login section)
+        if (currentVisible && currentVisible !== loginSection && section !== loginSection && currentVisible !== section) {
+          navigationHistory.push(currentVisible);
+        }
+
+        [loginSection, homeSection, subjectsSection, booksSection, searchSection, issueConfirmSection].forEach(s => s.style.display = 'none');
+        section.style.display = 'block';
+
+        // Update back button visibility
+        if (globalBackBtn) {
+          globalBackBtn.style.display = navigationHistory.length > 0 ? 'block' : 'none';
+        }
+      }
+
+      window.goBack = () => {
+        if (navigationHistory.length > 0) {
+          const previousSection = navigationHistory.pop();
+          showSection(previousSection);
+          navigationHistory.pop(); // Remove the duplicate added by showSection
+          if (globalBackBtn) {
+            globalBackBtn.style.display = navigationHistory.length > 0 ? 'block' : 'none';
+          }
+        }
+      };
+
+      loginBtn.onclick = () => {
+        const enroll = enrollInput.value.trim(), pwd = passInput.value.trim(), captcha = captchaInput.value.trim();
+        if (!enroll || !pwd || !captcha) { loginError.innerText = '❌ All fields required'; return; }
+        if (parseInt(captcha) !== parseInt(captchaAnswer.value)) { loginError.innerText = '❌ Captcha incorrect'; generateCaptcha(); captchaInput.value = ''; return; }
+
+        // Check localStorage for student
+        const studentsData = JSON.parse(localStorage.getItem('booknest_students_data')) || [];
+        const student = studentsData.find(s => s.enrollment === enroll && s.password === pwd);
+
+        if (!student) {
+          loginError.innerText = '❌ Invalid enrollment or password';
+          generateCaptcha();
+          captchaInput.value = '';
+          return;
+        }
+
+        currentEnrollment = enroll;
+        const studentNameDisplay = document.getElementById('studentNameDisplay');
+        if (studentNameDisplay) {
+          studentNameDisplay.innerHTML = `<i class="fas fa-user me-2"></i>${student.name}`;
+        }
+
+        // Check for new books from admin
+        const storedBooks = JSON.parse(localStorage.getItem('booknest_books')) || [];
+        const lastVisit = localStorage.getItem(`lastVisit_${enroll}`);
+        const now = Date.now();
+
+        if (newBooksNotification && newBooksMessage) {
+          const lastVisitTime = lastVisit ? parseInt(lastVisit) : (now - 24 * 60 * 60 * 1000);
+          const newBooks = storedBooks.filter(book => {
+            const bookTime = book.addedTimestamp || 0;
+            return bookTime > lastVisitTime;
+          });
+
+          if (newBooks.length > 0) {
+            const recentItems = newBooks.slice(-5).reverse();
+            const itemText = recentItems.map(b => `<strong>${b.title}</strong>`).join(', ');
+            newBooksMessage.innerHTML = `New additions: ${itemText}`;
+            newBooksNotification.style.display = 'block';
+          }
+        }
+        localStorage.setItem(`lastVisit_${enroll}`, now.toString());
+
+        loginError.innerText = '';
+        showSection(homeSection);
+        programPanel.style.display = 'none';
+        displayPostLoginQuote();
+      };
+
+      logoutBtn.onclick = () => {
+        showSection(loginSection);
+        enrollInput.value = '';
+        passInput.value = '';
+        captchaInput.value = '';
+        currentEnrollment = '';
+        generateCaptcha();
+      };
+
+      // Sign up functionality
+      signupBtn.onclick = () => {
+        const name = signupName.value.trim();
+        const enroll = signupEnroll.value.trim();
+        const email = signupEmail.value.trim();
+        const pwd = signupPassword.value.trim();
+        const dept = signupDepartment.value;
+        const year = signupYear.value;
+        const captcha = signupCaptchaInput.value.trim();
+
+        if (!name || !enroll || !email || !pwd || !dept || !year || !captcha) {
+          signupError.innerText = '❌ All fields required';
+          return;
+        }
+
+        if (parseInt(captcha) !== parseInt(signupCaptchaAnswer.value)) {
+          signupError.innerText = '❌ Captcha incorrect';
+          generateSignupCaptcha();
+          signupCaptchaInput.value = '';
+          return;
+        }
+
+        if (pwd.length < 6) {
+          signupError.innerText = '❌ Password must be at least 6 characters';
+          return;
+        }
+
+        // Check if enrollment already exists
+        let studentsData = JSON.parse(localStorage.getItem('booknest_students_data')) || [];
+        if (studentsData.find(s => s.enrollment === enroll)) {
+          signupError.innerText = '❌ Enrollment number already registered';
+          return;
+        }
+
+        // Add new student
+        const newStudent = {
+          name: name,
+          enrollment: enroll,
+          email: email,
+          password: pwd,
+          department: dept,
+          program: dept,
+          booksIssued: 0
+        };
+        studentsData.push(newStudent);
+        localStorage.setItem('booknest_students_data', JSON.stringify(studentsData));
+
+        // Also update booknest_students for backward compatibility
+        let oldStudents = JSON.parse(localStorage.getItem('booknest_students')) || [];
+        if (!oldStudents.find(s => s.enrollment === enroll)) {
+          oldStudents.push({ enrollment: enroll, name: name, email: email, booksIssued: 0 });
+          localStorage.setItem('booknest_students', JSON.stringify(oldStudents));
+        }
+
+        signupError.innerText = '';
+        signupSuccess.innerText = '✅ Registration successful! Please login.';
+        setTimeout(() => {
+          showLoginBtn.onclick();
+        }, 2000);
+      };
+
+      deptCA.onclick = () => {
+        // Show all subjects for Computer Application organized by semester
+        showSubjectsByDepartment('CA');
+      };
+
+      deptEngg.onclick = () => {
+        // Show all subjects for Engineering organized by semester
+        showSubjectsByDepartment('Engg');
+      };
+
+      function showSubjectsByDepartment(dept) {
+        const programs = dept === 'CA' ? ['BCA', 'MCA'] : ['CSE', 'MECH', 'CIVIL'];
+        const deptSubjects = subjectsData.filter(s => programs.includes(s.program));
+
+        // Group by semester
+        const subjectsBySem = {};
+        deptSubjects.forEach(s => {
+          const key = `${s.program} - Semester ${s.semester}`;
+          if (!subjectsBySem[key]) subjectsBySem[key] = [];
+          subjectsBySem[key].push(s);
+        });
+
+        subjectsTitle.innerText = `${dept === 'CA' ? 'Computer Application' : 'Engineering'} - All Subjects`;
+        subjectsContainer.innerHTML = '';
+
+        if (Object.keys(subjectsBySem).length === 0) {
+          subjectsContainer.innerHTML = '<p class="text-muted">No subjects found.</p>';
+        } else {
+          Object.keys(subjectsBySem).sort((a, b) => {
+            // Sort by program then semester
+            const [progA, semA] = a.split(' - Semester ');
+            const [progB, semB] = b.split(' - Semester ');
+            if (progA !== progB) return progA.localeCompare(progB);
+            return parseInt(semA) - parseInt(semB);
+          }).forEach(semesterKey => {
+            const semesterDiv = document.createElement('div');
+            semesterDiv.className = 'mb-4';
+            semesterDiv.innerHTML = `
+              <h5 class="navy-text mb-3" style="background: linear-gradient(135deg, rgba(30,60,92,0.05) 0%, rgba(249,200,208,0.1) 100%); padding: 15px; border-radius: 1rem; border: 1px solid #cfa668;">
+                <i class="fas fa-layer-group me-2"></i>${semesterKey}
+              </h5>
+              <div class="row g-4">
+                ${subjectsBySem[semesterKey].map(subject => `
+                  <div class="col-md-4">
+                    <div class="card subject-card p-3" style="cursor: pointer;" data-subject-code="${subject.code}">
+                      <div class="card-body">
+                        <span class="course-code-badge mb-2">${subject.code}</span>
+                        <h5 class="navy-text">${subject.title}</h5>
+                        <p class="text-muted small mb-0">${subject.books.length} books</p>
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+            subjectsContainer.appendChild(semesterDiv);
+          });
+
+          // Add click handlers to subject cards
+          subjectsContainer.querySelectorAll('.subject-card').forEach(card => {
+            card.onclick = () => {
+              const subjectCode = card.dataset.subjectCode;
+              const subject = subjectsData.find(s => s.code === subjectCode);
+              if (subject) {
+                selectedSubject = subject;
+                renderBooksForSubject(subject);
+              }
+            };
+          });
+        }
+        showSection(subjectsSection);
+      }
+
+      function attachProgramListeners() {
+        document.querySelectorAll('.program-opt').forEach(btn => {
+          btn.onclick = (e) => {
+            selectedProgram = btn.dataset.prog;
+            document.querySelectorAll('.program-opt').forEach(b => b.classList.remove('active-program'));
+            btn.classList.add('active-program');
+            let semCount = { BCA: 6, MCA: 4, CSE: 8, MECH: 8, CIVIL: 8 }[selectedProgram] || 0;
+            semesterSelect.innerHTML = '<option value="">— select semester —</option>';
+            for (let i = 1; i <= semCount; i++) semesterSelect.innerHTML += `<option value="${i}">Semester ${i}</option>`;
+          };
+        });
+      }
+
+      goToSubjectsBtn.onclick = () => {
+        const sem = semesterSelect.value;
+        if (!selectedProgram || !sem) { alert('Select program and semester'); return; }
+        selectedSemester = parseInt(sem);
+        loadSubjectsFromData();
+      };
+
+      function loadSubjectsFromData() {
+        const subjects = subjectsData.filter(s => s.program === selectedProgram && s.semester === selectedSemester);
+        subjectsTitle.innerText = `${selectedProgram} · Semester ${selectedSemester}`;
+        subjectsContainer.innerHTML = '';
+        if (!subjects || subjects.length === 0) {
+          subjectsContainer.innerHTML = '<p class="text-muted">No subjects found.</p>';
+          return;
+        }
+        subjects.forEach(subj => {
+          const col = document.createElement('div');
+          col.className = 'col-md-6 col-lg-4';
+          col.innerHTML = `<div class="card subject-card p-3 h-100"><div class="card-body"><span class="course-code-badge">${subj.code}</span><h5 class="card-title mt-2 navy-text">${subj.title}</h5><p class="text-secondary mb-3">Click to view books</p><button class="btn btn-baby-pink view-books-btn" data-code="${subj.code}">View Books</button></div></div>`;
+          const btn = col.querySelector('.view-books-btn');
+          btn.onclick = () => { selectedSubject = subj; renderBooksForSubject(subj); };
+          subjectsContainer.appendChild(col);
+        });
+        showSection(subjectsSection);
+      }
+
+      function renderBooksForSubject(subject) {
+        booksTitle.innerText = `${subject.code} — ${subject.title}`;
+        renderBooksFromArray(booksContainer, subject.books);
+        showSection(booksSection);
+      }
+
+      function renderBooksFromArray(container, books) {
+        container.innerHTML = '';
+        if (!books || books.length === 0) { container.innerHTML = '<p class="text-muted">No books found.</p>'; return; }
+        books.forEach(book => {
+          const available = book.available_copies, total = book.total_copies;
+          const col = document.createElement('div');
+          col.className = 'card h-100 p-3';
+          const coverUrl = generateBookCover(book.title, book.author);
+          col.innerHTML = `<div class="card-body d-flex flex-column"><img src="${coverUrl}" class="book-cover" alt="Book Cover"><span class="availability-badge">${available}/${total} available</span><h5 class="card-title fw-bold navy-text">${book.title}</h5><p class="mb-1"><i class="fas fa-user"></i> ${book.author}</p><p class="mb-1"><i class="fas fa-building"></i> ${book.publisher}</p><p class="mb-1"><i class="fas fa-map-marker-alt"></i> ${book.location}</p><p class="mb-3"><i class="fas fa-barcode"></i> ${book.isbn}</p><button class="btn issue-btn mt-auto" data-isbn="${book.isbn}" ${available === 0 ? 'disabled' : ''}>${available === 0 ? 'Out of stock' : '📖 Issue book'}</button></div>`;
+          const btn = col.querySelector('.issue-btn');
+          btn.onclick = (e) => {
+            e.stopPropagation();
+            if (available === 0) return;
+            issueBook(book);
+          };
+          container.appendChild(col);
+        });
+      }
+
+      function issueBook(book) {
+        confirmBookTitle.innerText = book.title;
+        confirmBookAuthor.innerText = book.author;
+        confirmBookIsbn.innerText = book.isbn;
+        confirmBookLocation.innerText = book.location;
+        confirmEnrollment.innerText = currentEnrollment;
+
+        // Save to localStorage for admin panel
+        let issuedBooks = JSON.parse(localStorage.getItem('booknest_issued')) || [];
+        const issueRecord = {
+          bookTitle: book.title,
+          bookAuthor: book.author,
+          isbn: book.isbn,
+          enrollment: currentEnrollment,
+          issueDate: new Date().toLocaleDateString(), issueTimestamp: new Date().getTime(),
+          dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+          status: 'issued'
+        };
+        issuedBooks.push(issueRecord);
+        localStorage.setItem('booknest_issued', JSON.stringify(issuedBooks));
+
+        // Update student data in booknest_students_data
+        let students = JSON.parse(localStorage.getItem('booknest_students_data')) || [];
+        let studentIndex = students.findIndex(s => s.enrollment === currentEnrollment);
+        if (studentIndex !== -1) {
+          students[studentIndex].booksIssued = (students[studentIndex].booksIssued || 0) + 1;
+          localStorage.setItem('booknest_students_data', JSON.stringify(students));
+        }
+
+        // Also update booknest_students for backward compatibility
+        let oldStudents = JSON.parse(localStorage.getItem('booknest_students')) || [];
+        let oldStudentIndex = oldStudents.findIndex(s => s.enrollment === currentEnrollment);
+        if (oldStudentIndex === -1) {
+          oldStudents.push({ enrollment: currentEnrollment, name: currentEnrollment, email: '', booksIssued: 1 });
+        } else {
+          oldStudents[oldStudentIndex].booksIssued = (oldStudents[oldStudentIndex].booksIssued || 0) + 1;
+        }
+        localStorage.setItem('booknest_students', JSON.stringify(oldStudents));
+
+        showSection(issueConfirmSection);
+      }
+
+      window.issueGeneralBook = (index) => {
+        const storedGeneral = JSON.parse(localStorage.getItem('booknest_general')) || [];
+        const book = storedGeneral[index];
+
+        if (book.available_copies <= 0) {
+          alert('No copies available for this item');
+          return;
+        }
+
+        // Process the issue - save to localStorage
+        let issuedBooks = JSON.parse(localStorage.getItem('booknest_issued')) || [];
+        const issueRecord = {
+          bookTitle: book.title,
+          bookAuthor: book.author,
+          isbn: book.type || 'N/A',
+          enrollment: currentEnrollment,
+          issueDate: new Date().toLocaleDateString(),
+          issueTimestamp: new Date().getTime(),
+          dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+          status: 'issued',
+          location: book.location
+        };
+        issuedBooks.push(issueRecord);
+        localStorage.setItem('booknest_issued', JSON.stringify(issuedBooks));
+
+        // Update student data in booknest_students_data
+        let students = JSON.parse(localStorage.getItem('booknest_students_data')) || [];
+        let studentIndex = students.findIndex(s => s.enrollment === currentEnrollment);
+        if (studentIndex !== -1) {
+          students[studentIndex].booksIssued = (students[studentIndex].booksIssued || 0) + 1;
+          localStorage.setItem('booknest_students_data', JSON.stringify(students));
+        }
+
+        // Also update booknest_students for backward compatibility
+        let oldStudents = JSON.parse(localStorage.getItem('booknest_students')) || [];
+        let oldStudentIndex = oldStudents.findIndex(s => s.enrollment === currentEnrollment);
+        if (oldStudentIndex === -1) {
+          oldStudents.push({ enrollment: currentEnrollment, name: currentEnrollment, email: '', booksIssued: 1 });
+        } else {
+          oldStudents[oldStudentIndex].booksIssued = (oldStudents[oldStudentIndex].booksIssued || 0) + 1;
+        }
+        localStorage.setItem('booknest_students', JSON.stringify(oldStudents));
+
+        // Decrement available copies in general data
+        storedGeneral[index].available_copies--;
+        localStorage.setItem('booknest_general', JSON.stringify(storedGeneral));
+
+        // Show confirmation
+        confirmBookTitle.innerText = book.title;
+        confirmBookAuthor.innerText = book.author;
+        confirmBookIsbn.innerText = book.type || 'N/A';
+        confirmBookLocation.innerText = book.location;
+        confirmEnrollment.innerText = currentEnrollment;
+        showSection(issueConfirmSection);
+      };
+
+      if (generalBooksBtn) {
+        console.log('Attaching handler to generalBooksBtn');
+        generalBooksBtn.onclick = () => {
+          console.log('=== General content button clicked ===');
+          const storedGeneral = JSON.parse(localStorage.getItem('booknest_general')) || [];
+          console.log('Loaded general content from localStorage:', storedGeneral.length, 'items');
+
+          if (storedGeneral.length > 0) {
+            // Display stored general content without images, attractive card layout
+            searchResultsDiv.style.background = 'linear-gradient(135deg, #f5f0f2 0%, #ffffff 100%)';
+            searchResultsDiv.style.padding = '20px';
+            searchResultsDiv.style.borderRadius = '1.5rem';
+            searchResultsDiv.innerHTML = `
+              <div style="background: rgba(255, 255, 255, 0.95); padding: 20px 30px; border-radius: 1.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.1); min-height: 60vh;">
+                <h3 class="navy-text mb-2"><i class="fas fa-folder-open me-2"></i>General Content</h3>
+                <p class="text-muted mb-4" style="font-size: 0.95rem;">Explore our collection of books, novels, magazines, articles, and literature. These resources are available for all students and can be issued for a period of 10 days. Browse through the categories below and find your next read.</p>
+                <div class="row mb-4">
+                  <div class="col-md-4">
+                    <div style="background: linear-gradient(135deg, rgba(30,60,92,0.05) 0%, rgba(249,200,208,0.1) 100%); padding: 15px; border-radius: 1rem; border: 1px solid #cfa668;">
+                      <h6 class="navy-text mb-2" style="font-size: 0.9rem;"><i class="fas fa-book me-2"></i>Total Items</h6>
+                      <p class="text-muted mb-0" style="font-size: 1.5rem; font-weight: 700; color: #1e3c5c;">${storedGeneral.length}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div style="background: linear-gradient(135deg, rgba(30,60,92,0.05) 0%, rgba(249,200,208,0.1) 100%); padding: 15px; border-radius: 1rem; border: 1px solid #cfa668;">
+                      <h6 class="navy-text mb-2" style="font-size: 0.9rem;"><i class="fas fa-tags me-2"></i>Categories</h6>
+                      <p class="text-muted mb-0" style="font-size: 1.5rem; font-weight: 700; color: #1e3c5c;">${[...new Set(storedGeneral.map(item => item.type))].length}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div style="background: linear-gradient(135deg, rgba(30,60,92,0.05) 0%, rgba(249,200,208,0.1) 100%); padding: 15px; border-radius: 1rem; border: 1px solid #cfa668;">
+                      <h6 class="navy-text mb-2" style="font-size: 0.9rem;"><i class="fas fa-check-circle me-2"></i>Available</h6>
+                      <p class="text-muted mb-0" style="font-size: 1.5rem; font-weight: 700; color: #28a745;">${storedGeneral.filter(item => item.available_copies > 0).length}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'books-grid';
+            gridContainer.style.marginTop = '0';
+            storedGeneral.forEach((item, index) => {
+              console.log('Displaying item:', item);
+              const available = item.available_copies, total = item.total_copies;
+              const col = document.createElement('div');
+              col.className = 'card h-100 p-4';
+              col.style.background = 'linear-gradient(135deg, rgba(255,240,242,0.9) 0%, rgba(255,255,255,0.95) 100%)';
+              col.style.border = '2px solid #cfa668';
+              col.style.borderRadius = '1.5rem';
+              col.style.boxShadow = '0 8px 20px rgba(207,166,104,0.2)';
+              col.style.transition = 'all 0.3s ease';
+              col.innerHTML = `
+                <div class="d-flex align-items-center mb-3">
+                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f9c8d0 0%, #fbb1bc 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                    <i class="fas fa-book-open fa-lg" style="color: #1e3c5c;"></i>
+                  </div>
+                  <span class="badge" style="background: #1e3c5c; color: #f5e5c8; font-size: 0.9rem; padding: 8px 16px; border-radius: 20px;">${item.type}</span>
+                </div>
+                <h5 class="navy-text card-title mb-3" style="font-size: 1.25rem; font-weight: 700;">${item.title}</h5>
+                <p class="text-muted mb-2" style="font-size: 0.95rem;"><i class="fas fa-user me-2" style="color: #c06a78;"></i>${item.author}</p>
+                <p class="text-muted mb-2" style="font-size: 0.95rem;"><i class="fas fa-map-marker-alt me-2" style="color: #c06a78;"></i>${item.location}</p>
+                <hr style="border-color: #cfa668; margin: 15px 0;">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-muted small" style="font-size: 0.9rem;"><i class="fas fa-book me-1"></i> Available: <strong style="color: ${available > 0 ? '#28a745' : '#dc3545'};">${available}/${total}</strong></span>
+                  <button class="btn btn-navy rounded-pill px-4 py-2 issue-btn" style="font-size: 0.9rem;" ${available === 0 ? 'disabled' : ''}>
+                    <i class="fas fa-hand-holding me-1"></i>Issue
+                  </button>
+                </div>
+              `;
+              col.onmouseenter = () => {
+                col.style.transform = 'translateY(-5px)';
+                col.style.boxShadow = '0 12px 30px rgba(207,166,104,0.3)';
+              };
+              col.onmouseleave = () => {
+                col.style.transform = 'translateY(0)';
+                col.style.boxShadow = '0 8px 20px rgba(207,166,104,0.2)';
+              };
+              const btn = col.querySelector('.issue-btn');
+              btn.onclick = (e) => {
+                e.stopPropagation();
+                if (available === 0) return;
+                issueGeneralBook(index);
+              };
+              gridContainer.appendChild(col);
+            });
+            searchResultsDiv.appendChild(gridContainer);
+            searchResultsDiv.innerHTML += '</div>';
+          } else {
+            console.log('No general content found, showing default books');
+            // Show default general books if no content is uploaded
+            renderBooksFromArray(searchResultsDiv, generalBooks);
+          }
+          showSection(searchSection);
+        };
+        console.log('Handler attached successfully');
+      } else {
+        console.error('generalBooksBtn not found!');
+      }
+
+      newspapersBtn.onclick = () => {
+        const storedNewspapers = JSON.parse(localStorage.getItem('booknest_newspapers')) || [];
+        if (storedNewspapers.length > 0) {
+          // Display stored newspapers with newspaper background
+          searchResultsDiv.style.background = 'url("https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80")';
+          searchResultsDiv.style.backgroundSize = 'cover';
+          searchResultsDiv.style.backgroundPosition = 'center';
+          searchResultsDiv.style.padding = '30px';
+          searchResultsDiv.innerHTML = '<div style="background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"><h3 class="navy-text mb-4 text-center"><i class="fas fa-newspaper me-2"></i>Daily Newspapers</h3><div class="row g-4">';
+          storedNewspapers.forEach(np => {
+            searchResultsDiv.innerHTML += `
+            <div class="col-md-4">
+              <div class="card h-100" style="background: rgba(255,240,242,0.9); border: 2px solid #cfa668; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <div class="card-body">
+                  <h5 class="navy-text text-center">${np.name}</h5>
+                  <p class="text-muted text-center mb-3">${np.language}</p>
+                  <a href="${np.pdfData}" download="${np.name}.pdf" class="btn btn-navy rounded-pill w-100"><i class="fas fa-file-pdf me-2"></i>Read PDF</a>
+                </div>
+              </div>
+            </div>
+          `;
+          });
+          searchResultsDiv.innerHTML += '</div></div>';
+        } else {
+          // Show default message if no newspapers are uploaded with newspaper background
+          searchResultsDiv.style.background = 'url("https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80")';
+          searchResultsDiv.style.backgroundSize = 'cover';
+          searchResultsDiv.style.backgroundPosition = 'center';
+          searchResultsDiv.style.padding = '30px';
+          searchResultsDiv.innerHTML = `
+          <div style="background: rgba(255, 255, 255, 0.95); padding: 50px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); text-align: center;">
+            <i class="fas fa-newspaper fa-4x mb-4" style="color:#b35f6b;"></i>
+            <h4 class="navy-text mb-3">No newspapers available</h4>
+            <p class="text-muted">Please contact the admin to upload daily newspapers.</p>
+          </div>
+        `;
+        }
+        showSection(searchSection);
+      };
+
+      searchBtn.onclick = () => {
+        const kw = searchInput.value.trim().toLowerCase();
+        if (!kw) { alert('Enter keyword'); return; }
+        let filter = document.getElementById('filterPublisher').checked ? 'publisher' : (document.getElementById('filterIsbn').checked ? 'isbn' : 'author');
+        const allBooks = [...subjectsData.flatMap(s => s.books), ...generalBooks, ...newspapers];
+        const filtered = allBooks.filter(b => {
+          if (filter === 'author') return b.author.toLowerCase().includes(kw);
+          if (filter === 'publisher') return b.publisher.toLowerCase().includes(kw);
+          if (filter === 'isbn') return b.isbn.toLowerCase().includes(kw);
+          return false;
+        });
+        renderBooksFromArray(searchResultsDiv, filtered);
+        showSection(searchSection);
+      };
+      searchInput.onkeypress = (e) => { if (e.key === 'Enter') searchBtn.onclick(); };
+
+      backHomeFromSubjects.onclick = () => {
+        showSection(homeSection);
+        programPanel.style.display = 'none';
+      };
+
+      backToSubjects.onclick = () => {
+        showSection(subjectsSection);
+      };
+
+      backHomeFromSearch.onclick = () => showSection(homeSection);
+      backHomeFromConfirm.onclick = () => showSection(homeSection);
+
+      showSection(loginSection);
+    })();
+  </script>
+</body>
+
+</html>
